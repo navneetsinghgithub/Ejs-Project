@@ -7,11 +7,19 @@ const userSchema = new mongoose.Schema({
     email:
         { type: String },
     password:
-        { type: Number },
+        { type: String },
     contact:
         { type: Number },
     image:
         { type: String },
+    role:
+        { type: Number, enum: [0, 1], default: 1 },   //admin = 0 , user = 1  
+    status:
+        { type: Boolean, default: false },  //inactive = 0 , active = 1
+    token:
+        { type: String },
+    logintime:
+        { type: Number }
 }, { timestamps: true })
 
 const users = mongoose.model("users", userSchema)
