@@ -8,7 +8,8 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      res.render("common/dashboard", { session: req.session.users });
+      const msg = req.flash("msg");
+      res.render("common/dashboard", { session: req.session.users,msg });
     } catch (error) {
       console.log(error);
       console.log(error);

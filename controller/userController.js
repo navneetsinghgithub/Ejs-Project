@@ -166,24 +166,12 @@ module.exports = {
             if(!req.session.users){
             res.redirect("/loginPage")
             }
-           
-            let Data = await userModel.find()
+            let Data = await userModel.find({role:1})
             // console.log("=======data",Data);return
-           
-            // return res.json({
-            //     success: true,
-            //     status: 200,
-            //     message: "get all users success",
-            //     body: data
-            // })
             res.render("common/user",{Data})
         } catch (error) {
             console.log(error)
-            // return res.json({
-            //     success: false,
-            //     status: 400,
-            //     message: "error not get users"
-            // })
+       
         }
     },
 
@@ -299,21 +287,12 @@ module.exports = {
     status: async (req, res) => {
         try {
             const status = await userModel.findByIdAndUpdate({
-                _id: req.params.id
+                _id: req.session.users._id
             }, { status: req.body.status }, { new: true })
-            return res.json({
-                success: true,
-                status: 200,
-                message: "status ",
-                body: status
-            })
+         console.log("status updated");
         } catch (error) {
             console.log(error, "error");
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error"
-            })
+          
         }
     }
 

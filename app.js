@@ -9,7 +9,6 @@ var indexRouter = require('./routes/index');
 const connectionDb = require("./connectionDb/connectionDb")
 const fileupload = require("express-fileupload")
 const dotenv = require("dotenv")
-
 var app = express();
 dotenv.config()
 let port = process.env.port
@@ -20,7 +19,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(fileupload())
-app.use(flash())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +29,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }))
+app.use(flash())
 
 app.use(express.static(path.join(__dirname, 'public')));
 

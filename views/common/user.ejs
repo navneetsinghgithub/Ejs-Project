@@ -1,126 +1,112 @@
 <%-include("../common/header.ejs")%>
 
- <%-include("../common/Sidebar.ejs")%>
-            <main role="main" class="main-content">
-                <div class="container-fluid">
-                    <div class="row justify-content-center">
-                        <div class="col-12">
+<%-include("../common/Sidebar.ejs")%>
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <section id="responsive-datatable">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h4 class="card-title">Users</h4>
+                        </div>
+                        <br>
+                        <div class="card-DataTable table-responsive">
+                            <table id="userTable" class="table table-hover-animation">
+                                <thead>
+                                    <tr>
+                                        <th>S NO.</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Image</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%Data.forEach(function(data,i) {%>
+                                    <tr>
+                                        <td>
+                                            <%=1+i%>
+                                        </td>
+                                        <td>
+                                            <%=data.name%>
+                                        </td>
+                                        <td>
+                                            <%=data.lastname%>
+                                        </td>
+                                        <td>
+                                            <%=data.email%>
+                                        </td>
+                                        <td>
+                                            <%=data.contact%>
+                                        </td>
+                                        <td>
+                                            <img src="/images/userImage/<%=data.image%>" height="50" width="50"
+                                                class="rounded-circle" alt="">
+                                        </td>
+                                        <td>
+                                            <% if(data.status=="Active" ) { %>
+                                            <button onclick="changeStatus(this)" id="id<%=data._id%>"
+                                                class="btn btn-success status btn-sm" data-id="<%=data._id%>"
+                                                value="Inactive">Active</button>
+                                            <% } else { %>
+                                            <button onclick="changeStatus(this)" id="id<%=data._id%>"
+                                                class="btn btn-danger status btn-sm " data-id="<%=data._id%>"
+                                                value="Active" style="display: flex;font-size: 9px;">In-Active</button>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-outline-success"><i
+                                                    data-feather='eye'></i></a>
+                                            <button onclick="confirmDelete('<%=data._id%>')"
+                                                class="btn btn-sm btn-outline-danger">
+                                                <i data-feather='trash-2'></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <% } )%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
 
-                            <div class="row my-4">
-                                <!-- Small table -->
-                                <div class="col-md-12">
-                                    <div class="card shadow">
-                                        <div class="card-header raw">
-                                            <a class="bckBtn" href="javascript:history.go(-1);" title="Back">
-                                                <span class="fe fe-24 fe-arrow-left"></span>
-                                            </a>
-                                            <strong class="card-title">Users</strong>
-                                            <!-- <a href="/getmusic" class="btn mb-2 btn-primary float-right">
-                  Add
-                </a> -->
-                                        </div>
-                                        <div class="card-body">
-                                            <!-- table -->
-                                            <table class="table table-hover datatables" id="myTable">
-                                                <thead class="thead-light">
-                                                    <tr>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
 
-                                                        <th>Serial No</th>
-                                                        <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Image</th>
-                                                        <th>Contact</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% Data.forEach((data,i)=>{%>
-                                                  <tr>
-                                                  
-                                                    <td><strong><%=i+1 %></strong></td>
-                                               <td ><strong><%= data.name %></strong></td>
-                                                    
-                                                    <td><strong><%= data.email %></strong></td>
-                                                    <td></td>
-                                                    <td><strong><%= data.contact%></strong></td>
-<td></td>
-<td>
-    <button type="submit">view</button>
-    <button type="submit">Delete</button>
+<%- include('../common/footer') %>
 
-</td>
-                                                   
-                                                 
-                                    
-                                                    
-                                                  </tr>
-                                                   <% }); %>
-                                               
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div> <!-- simple table -->
-                            </div> <!-- end section -->
-                        </div> <!-- .col-12 -->
-                    </div> <!-- .row -->
-                </div> <!-- .container-fluid -->
-
-            </main>
-            <%-include("../common/Footer.ejs")%>
-              
-                    <!-- <script src='js/jquery.dataTables.min.js'></script> -->
-                    <script src='js/dataTables.bootstrap4.min.js'></script>
-                    <script>
-                        $('#dataTable-1').DataTable(
-                            {
-                                autoWidth: true,
-                                "lengthMenu": [
-                                    [16, 32, 64, -1],
-                                    [16, 32, 64, "All"]
-                                ]
-                            });
-                    </script>
-
-                    <script>
-                        function changeStatus(button) {
-                            var id = button.getAttribute('data-id');
-                            var value = button.getAttribute('value');
-
-                            $.ajax({
-                                type: "post",
-                                url: "/userstatus/" + id,
-                                data: {
-                                    id: id,
-                                    status: value
-                                },
-                                success: function (data) {
-                                    window.location.reload("#dataTable-1");
-
-                                }
-                            });
-                        }
-
-                    </script>
+<script>
+    setTimeout(function () {
+        $("div.msg").fadeOut();
+    }, 2000);
+</script>
 
 <script>
     $(document).ready(function () {
-      
+        $('#userTable').DataTable(); // Initialize DataTable for the user table
     });
+</script>
 
+<script>
     function confirmDelete(id) {
-        console.log(">>>>>>>>done>>>>>>>>>>", id)
-
-
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-danger',
                 cancelButton: 'btn btn-success'
             },
-            buttonsStyling: false
+            buttonsStyling: true
         })
-        // console.log("------------------------------result------", id);
 
         swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
@@ -131,40 +117,49 @@
             cancelButtonText: 'No, cancel!',
             reverseButtons: true
         }).then((isConfirm) => {
-            // console.log(isConfirm)
-            // return
-            if (isConfirm.isConfirmed)
-            {
-                // alert('asd')
+            if (isConfirm.isConfirmed) {
                 $.ajax({
-
-                    url: "/deleteuser/:id",
-                    type: 'post',
-                    data: { id: id },
+                    url: "/deleteUser/" + id,
+                    type: 'delete',
                     success: function (result) {
-
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'The user has been deleted .',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
                     }
-
-
                 });
-
-
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                ).then(() => {
-                    location.reload();
-                })
-            } else
-            {
+            } else {
                 swalWithBootstrapButtons.fire(
                     'Cancelled',
-                    'Your imaginary file is safe :)',
+                    'The user is safe',
                     'error'
                 )
             }
         })
+    }
+</script>
 
+<script>
+    function changeStatus(button) {
+        var _id = button.getAttribute('data-id');
+        var value = button.getAttribute('value');
+
+        $.ajax({
+            type: "post",
+            url: "/status/" + _id,
+            data: {
+                status: value
+            },
+            success: function (data) {
+                console.log(data); // Log the data received from the server
+                window.location.reload(); // Refresh the entire page
+            },
+            error: function (error) {
+                console.error(error.responseText);
+            }
+        });
     }
 </script>

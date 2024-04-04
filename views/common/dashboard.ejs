@@ -1,8 +1,15 @@
 <%-include("../common/header.ejs")%>
+
     <%-include("../common/Navbar.ejs")%>
         <%-include("../common/Sidebar.ejs")%>
      
-     
+        <% if(msg !='' ) { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; color:rgb(36, 23, 23); background-color:  #e0d1bf; right: 10px; top: 10px;">
+              <span style="font-size: 16px;">
+                <%= msg %>
+              </span>
+            </div>
+            <% } %>
             <div class="app-content content ">
                 <div class="content-overlay"></div>
                 <div class="header-navbar-shadow"></div>
