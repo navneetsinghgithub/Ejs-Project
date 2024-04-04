@@ -15,7 +15,7 @@ router.get("/privacyPolicy",adminController.privacyPolicy)
 router.get("/aboutUss",adminController.aboutUss)
 router.get("/profile",adminController.profile)
 router.get("/editProfile",adminController.editProfile)
-router.get("/user",adminController.user)
+// router.get("/user",adminController.user)
 
 
 
@@ -25,15 +25,15 @@ router.get("/user",adminController.user)
 
 ////////////////user//////////////////
 router.post("/signup", userController.signup)
-router.get("/getUser", auth, userController.getUser)
+router.get("/getUser",  userController.getUser)
 router.get("/getSingleUser/:id", userController.getSingleUser)
 router.put("/updateUser/:id", userController.updateUser)
 router.delete("/deleteUser/:id", userController.deleteUser)
 router.post("/login", userController.login)
-router.post("/changePassword/:id", userController.changePassword)
+router.post("/changePassword", userController.changePassword)
 router.get("/logout", userController.logout)
 router.get("/getAdminProfile/:id", userController.getAdminProfile)
-router.put("/updateAdminProfile/:id", userController.updateAdminProfile)
+router.post("/updateAdminProfile", userController.updateAdminProfile)
 router.put("/status/:id", userController.status)
 
 

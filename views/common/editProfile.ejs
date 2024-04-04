@@ -3,6 +3,20 @@
 
     <%-include("../common/Navbar.ejs")%>
         <%-include("../common/Sidebar.ejs")%>
+
+        <script>
+          function previewImage(event) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                document.getElementById('account-upload-img').src = e.target.result;
+              };
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+        </script>
+
 <!-- BEGIN: Content-->
 <div class="app-content content ">
     <div class="content-overlay"></div>
@@ -35,7 +49,7 @@
                       <!--/ header section -->
 
                       <!-- form -->
-                      <form class="validate-form mt-2" action="/updateprofile" method="post" enctype="multipart/form-data">
+                      <form class="validate-form mt-2" action="/updateAdminProfile" method="post" enctype="multipart/form-data">
                         <div class="row">
 
 
@@ -49,7 +63,7 @@
                             </div>
                           </div>
                           <a href="#" class="me-25">
-                            <img src="/images/userImage/<%-session.image %>" id="account-upload-img" class="rounded me-50" name="image" alt="profile image" height="80" width="80" />
+                            <img src="/images/userImage/<%-session.image %>" id="account-upload-img" class="rounded me-50"  alt=" image" height="80" width="80" />
                           </a>
                           <!-- upload and reset button -->
                           <div class="mt-75 ms-1">
@@ -57,29 +71,29 @@
                           <div class="col-12 col-sm-6">
                             <div class="mb-1">
                               <label class="form-label" for="account-username">Name</label>
-                              <input type="text" class="form-control" id="account-name" name="name" placeholder="name" value=<%-session.name%> />
+                              <input type="text" class="form-control" id="name" name="name" placeholder="name" value="<%-session.name%>" />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-6">
                             <div class="mb-1">
                               <label class="form-label" for="account-e-mail">E-mail</label>
-                              <input type="email" class="form-control" id="account-e-mail" name="email" placeholder="Email" readonly value=<%-session.email%> />
+                              <input type="email" class="form-control" id="account-e-mail" name="email" placeholder="Email" readonly value="<%-session.email%>" />
                             </div>
                           </div>
 
                           <div class="col-12 col-sm-6">
                             <div class="mb-1">
                               <label class="form-label" for="account-name">Contact</label>
-                              <input type="text" class="form-control" id="contact" hidden name="id" placeholder="contact" value=<%-session._id%> />
-                              <input type="text" class="form-control" id="contact" name="contact" placeholder="contact" value=<%-session.contact> />
+                             
+                              <input type="text" class="form-control" id="contact" name="contact" placeholder="contact" value="<%-session.contact%>" />
                             </div>
                           </div>
 
 
                           <div class="col-12">
 
-                            <button type="submit" class="btn btn-primary mt-2 me-1" href="/editProfile">Save</button>
+                            <button type="submit" class="btn btn-primary mt-2 me-1" href="/dashboard">Save</button>
                             <a type="reset" class="btn btn-outline-secondary mt-2" href="/profile">Cancel</a>
                           </div>
                         </div>

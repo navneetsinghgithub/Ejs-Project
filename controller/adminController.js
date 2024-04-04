@@ -1,3 +1,4 @@
+const { redirect } = require("react-router-dom");
 const cmsModel = require("../model/cmsModel")
 
 module.exports = {
@@ -5,7 +6,7 @@ module.exports = {
   dashboard: async (req, res) => {
     try {
       if (!req.session.users) {
-        return res.render("/login")
+        return res.redirect("/loginPage")
       }
       res.render("common/dashboard", { session: req.session.users });
     } catch (error) {
@@ -16,7 +17,8 @@ module.exports = {
 
   loginPage: async (req, res) => {
     try {
-      res.render("users/Login")
+      const msg = req.flash("msg");
+      res.render("users/Login",{msg})
     } catch (error) {
       console.log(error);
     }
@@ -46,19 +48,22 @@ module.exports = {
 
   changePasswordPage: async (req, res) => {
     try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
       res.render("users/ChangePassword.ejs", { session: req.session.users })
     } catch (error) {
       console.log(error);
     }
   },
 
-  user: async (req, res) => {
-    try {
-      res.render("common/user", { session: req.session.users })
-    } catch (error) {
-      console.log(error);
-    }
-  },
+  // user: async (req, res) => {
+  //   try {
+  //     res.render("common/user", { session: req.session.users })
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
 
 
   ////////////////////cms///////////////////

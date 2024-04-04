@@ -83,19 +83,24 @@ module.exports = {
 
     login: async (req, res) => {
         try {
+         
             let login = await userModel.findOne({ email: req.body.email })
             if (!login) {
+             
                 res.redirect('/loginPage')
             }
             else if (login.isVerified === 0) {
+               
                 res.redirect('/loginPage')
             }
 
             const password = await bcrypt.compare(req.body.password, login.password);         
             if (!password) {
+              
                 res.redirect('/loginPage')
             } else {
                 req.session.users = login
+                req.flash("msg", "Login successfully")
                 res.redirect("/dashboard")
             }
 
@@ -128,45 +133,57 @@ module.exports = {
 
     updateAdminProfile: async (req, res) => {
         try {
+
+            if (!req.session.users || !req.session.users._id) {
+                return helper.failed(res, "User session not found or missing _id");
+              }
+
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
 
+   
             const updateAdminProfile = await userModel.findByIdAndUpdate({
-                _id: req.params.id
+                _id: req.session.users._id
             }, { name: req.body.name, image: req.body.image, contact: req.body.contact }, { new: true })
-            return res.json({
-                message: "updated admin profile",
-                success: true,
-                status: 200,
-                body: updateAdminProfile
-            })
+
+            //////////////////////////
+            let login = await userModel.findOne({ _id: req.session.users._id })
+                req.session.users = login
+         
+            res.redirect("/dashboard")
+            console.log("updated admin profile");
+           
         } catch (error) {
-            return res.json({
-                message: "error",
-                status: 400,
-                success: false
-            })
+            console.log(error);
+          
         }
     },
 
     getUser: async (req, res) => {
         try {
-            const data = await userModel.find()
-            return res.json({
-                success: true,
-                status: 200,
-                message: "get all users success",
-                body: data
-            })
+            if(!req.session.users){
+            res.redirect("/loginPage")
+            }
+           
+            let Data = await userModel.find()
+            // console.log("=======data",Data);return
+           
+            // return res.json({
+            //     success: true,
+            //     status: 200,
+            //     message: "get all users success",
+            //     body: data
+            // })
+            res.render("common/user",{Data})
         } catch (error) {
             console.log(error)
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error not get users"
-            })
+            // return res.json({
+            //     success: false,
+            //     status: 400,
+            //     message: "error not get users"
+            // })
         }
     },
 
@@ -243,40 +260,24 @@ module.exports = {
 
     changePassword: async (req, res) => {
         try {
-            const data = await userModel.findOne({ _id: req.params.id })
+            const data = await userModel.findOne({ _id: req.session.users._id })
             const decryptPassword = await bcrypt.compare(req.body.password, data.password)
             if (decryptPassword == false) {
-                return res.json({
-                    success: false,
-                    status: 400,
-                    message: "password does not match",
-                    body: {}
-                })
+                console.log("password does not match");
+            
             }
             if (req.body.newPassword !== req.body.confirmPassword) {
-                return res.json({
-                    success: false,
-                    status: 400,
-                    message: "new password and confirm password does not match",
-                    body: {}
-                })
+                console.log("new password and confirm password does not match");
+           
             }
             const encryptPassword = await bcrypt.hash(req.body.newPassword, saltRound)
             data.password = encryptPassword
             data.save()
-            return res.json({
-                success: true,
-                status: 200,
-                message: "password updated successfully",
-                body: data
-            })
+            console.log("password updated successfully");
+          
         } catch (error) {
             console.log(error, "error");
-            // return res.json({
-            //     success: false,
-            //     status: 400,
-            //     message: "error"
-            // })
+         
         }
 
     },
@@ -284,7 +285,7 @@ module.exports = {
     logout: async (req, res) => {
         try {
 
-            delete req.session.user
+            delete req.session.users
             res.redirect('/loginPage')
         } catch (error) {
             return res, json({
