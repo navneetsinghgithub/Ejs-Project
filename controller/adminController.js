@@ -1,5 +1,7 @@
 const { redirect } = require("react-router-dom");
 const cmsModel = require("../model/cmsModel")
+const userModel = require("../model/userModel")
+
 
 module.exports = {
 
@@ -9,7 +11,7 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const msg = req.flash("msg");
-      res.render("common/dashboard", { session: req.session.users,msg });
+      res.render("common/dashboard", { session: req.session.users, msg });
     } catch (error) {
       console.log(error);
       console.log(error);
@@ -19,7 +21,7 @@ module.exports = {
   loginPage: async (req, res) => {
     try {
       const msg = req.flash("msg");
-      res.render("users/Login",{msg})
+      res.render("users/Login", { msg })
     } catch (error) {
       console.log(error);
     }
@@ -52,20 +54,27 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      res.render("users/ChangePassword.ejs", { session: req.session.users })
+      const msg = req.flash("msg");
+      res.render("users/ChangePassword.ejs", { session: req.session.users,msg })
     } catch (error) {
       console.log(error);
     }
   },
 
-  // user: async (req, res) => {
-  //   try {
-  //     res.render("common/user", { session: req.session.users })
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
 
+  userView: async (req, res) => {
+    try {
+      // console.log(req.params,"====================",req.body);return;
+
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      let Data = await userModel.findOne({_id:req.params.id })
+      res.render("common/userView", { session: req.session.users ,Data})
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
 
   ////////////////////cms///////////////////
   termConditionPage: async (req, res) => {

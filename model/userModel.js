@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     role:
         { type: Number, enum: [0, 1], default: 1 },   //admin = 0 , user = 1  
     status:
-        { type: Boolean, default: false },  //inactive = 0 , active = 1
+        { type: String  },  //inactive = 0 , active = 1
     token:
         { type: String },
     logintime:
