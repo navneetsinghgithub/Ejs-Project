@@ -1,6 +1,9 @@
 const { redirect } = require("react-router-dom");
 const cmsModel = require("../model/cmsModel")
 const userModel = require("../model/userModel")
+const categoryModel = require("../model/categoryModel")
+const subcategoryModel = require("../model/subCategoryModel");
+const session = require("express-session");
 
 
 module.exports = {
@@ -55,7 +58,7 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const msg = req.flash("msg");
-      res.render("users/ChangePassword.ejs", { session: req.session.users,msg })
+      res.render("users/ChangePassword.ejs", { session: req.session.users, msg })
     } catch (error) {
       console.log(error);
     }
@@ -69,8 +72,8 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      let Data = await userModel.findOne({_id:req.params.id })
-      res.render("common/userView", { session: req.session.users ,Data})
+      let Data = await userModel.findOne({ _id: req.params.id })
+      res.render("common/userView", { session: req.session.users, Data })
     } catch (error) {
       console.log(error, "error");
     }
@@ -111,6 +114,66 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+
+
+  /////////////////////////////Category/////////////////////
+  categoryView: async (req, res) => {
+    try {
+
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const Data = await categoryModel.findOne({ _id: req.params.id })
+      res.render("category/categoryView", { Data, session: req.session.users })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+  editCategory: async (req, res) => {
+    try {
+      const data = await categoryModel.findById({
+        _id: req.params.id
+      })
+
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      res.render("category/editCategory", { session: req.session.users, data })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+  subCategoryView: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const Data = await subcategoryModel.findOne({ _id: req.params.id }).populate("categoryId")
+      res.render("category/subCategoryView", { Data, session: req.session.users })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+  editSubCategory: async (req, res) => {
+    try {
+   
+      const data = await subcategoryModel.findById({
+        _id: req.params.id
+      })
+     
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      res.render("category/editSubCategory", { session: req.session.users,data })
+    } catch (error) {
+      console.log(error, "error");
+    }
   }
+
 
 }

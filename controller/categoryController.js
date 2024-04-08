@@ -27,29 +27,27 @@ module.exports = {
             const data = await categoryModel.create({
                 name: req.body.name, image: req.body.image
             })
-            console.log("add data");
-           
+            return res.json({
+                message:"created",
+                body:data
+            })
+  
+
         } catch (error) {
-          console.log("error");
+            console.log("error");
         }
     },
 
-    findCategory: async (req, res) => {
+    getCategory: async (req, res) => {
         try {
-            const data = await categoryModel.find()
-
-            return res.json({
-                success: true,
-                status: 200,
-                message: "find data",
-                body: data
-            })
+            
+            if (!req.session.users) {
+                res.redirect("/loginPage")
+            }
+            const Data = await categoryModel.find()
+            res.render("category/category", { Data, session: req.session.users })           
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+            console.log(error, "error");
         }
     },
 
@@ -59,21 +57,12 @@ module.exports = {
                 _id: req.params.id
             })
 
-            return res.json({
-                success: true,
-                status: 200,
-                message: "find Single Data ",
-                body: data
-            })
+           
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+        console.log(error,"error");
         }
     },
-    
+
     updateCategory: async (req, res) => {
         try {
             if (req.files && req.files.image.name) {
@@ -81,42 +70,25 @@ module.exports = {
                 if (image) req.body.image = imageupload(image, "userImage");
             }
             const data = await categoryModel.findByIdAndUpdate({
-                _id: req.params.id
+                _id: req.body.id
             }, { name: req.body.name, image: req.body.image }, { new: true })
+          
 
-            return res.json({
-                success: true,
-                status: 200,
-                message: " updated Data ",
-                body: data
-            })
+           res.redirect("/getCategory")
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+            console.log(error,"error");
         }
     },
 
     deleteCategory: async (req, res) => {
         try {
+       
             const data = await categoryModel.findByIdAndDelete({
-                _id: req.params.id
-            }, { new: true })
+                _id: req.body.id
+            })
 
-            return res.json({
-                success: true,
-                status: 200,
-                message: " delete  Data ",
-                body: data
-            })
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+         console.log(error,"error");
         }
     },
 }

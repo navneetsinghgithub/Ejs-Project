@@ -2,6 +2,7 @@
 const subCategoryModel = require("../model/subCategoryModel")
 const { Validator } = require("node-input-validator")
 const { imageupload, checkValidation } = require("../middleWare/helper")
+const session = require("express-session")
 
 module.exports = {
     addSubCategory: async (req, res) => {
@@ -11,7 +12,7 @@ module.exports = {
                 name: "required",
                 categoryId: "required",
             })
-            let errorResponse = await checkValidation(v)          
+            let errorResponse = await checkValidation(v)
             if (errorResponse) {
                 return res.json({
                     success: false,
@@ -45,22 +46,16 @@ module.exports = {
         }
     },
 
-    findSubCategory: async (req, res) => {
+    getSubCategory: async (req, res) => {
         try {
-            const data = await subCategoryModel.find().populate("categoryId")
+            if (!req.session.users) {
+                res.redirect("/loginPage")
+            }
+            const Data = await subCategoryModel.find().populate("categoryId")
+            res.render("category/subcategory", { Data, session: req.session.users })
 
-            return res.json({
-                success: true,
-                status: 200,
-                message: "find data",
-                body: data
-            })
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+            console.log(error, "error");
         }
     },
 
@@ -69,19 +64,10 @@ module.exports = {
             const data = await subCategoryModel.findById({
                 _id: req.params.id
             }).populate("categoryId")
+            console.log(data,"----------====");
 
-            return res.json({
-                success: true,
-                status: 200,
-                message: "find Single Data ",
-                body: data
-            })
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+         console.log(error,"error");
         }
     },
 
@@ -91,44 +77,26 @@ module.exports = {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
-
+            
             const data = await subCategoryModel.findByIdAndUpdate({
-                _id: req.params.id
-            }, { name: req.body.name, categoryId: req.body.categoryId, image: req.body.image }, { new: true })
+                _id: req.body.id
+            }, { name: req.body.name,categoryId:req.body.categoryId,  image: req.body.image }, { new: true })
+          
 
-            return res.json({
-                success: true,
-                status: 200,
-                message: " updated Data ",
-                body: data
-            })
+         res.redirect("/getSubCategory")
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+        console.log(error,"error");
         }
     },
 
     deleteSubCategory: async (req, res) => {
         try {
             const data = await subCategoryModel.findByIdAndDelete({
-                _id: req.params.id
-            }, { new: true })
-
-            return res.json({
-                success: true,
-                status: 200,
-                message: " delete  Data ",
-                body: data
+                _id: req.body.id
             })
+ 
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+          console.log(error,"error");
         }
     },
 }

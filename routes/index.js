@@ -8,7 +8,7 @@ const controllerss = require("../controller/subCategoryController")
 const { auth } = require('../middleWare/auth');
 
 
-////////////////////////////////admin///////////////
+////////////////////////////////admin////////////////////////////////////////////////////////////////////////
 router.get("/dashboard",adminController.dashboard)
 router.get("/loginPage", adminController.loginPage)
 router.get("/changePasswordPage", adminController.changePasswordPage)
@@ -18,6 +18,10 @@ router.get("/aboutUss",adminController.aboutUss)
 router.get("/profile",adminController.profile)
 router.get("/editProfile",adminController.editProfile)
 router.get("/userView/:id",adminController.userView)
+router.get("/categoryView/:id",adminController.categoryView)
+router.get("/subCategoryView/:id",adminController.subCategoryView)
+router.get("/editCategory/:id",adminController.editCategory)
+router.get("/editSubCategory/:id",adminController.editSubCategory)
 
 
 
@@ -50,19 +54,19 @@ router.post("/updateAboutCms", cmsController.updateAboutCms)
 
 ///////////category controller//////
 router.post("/createCategory", controllers.createCategory)
-router.get("/findCategory", controllers.findCategory)
+router.get("/getCategory", controllers.getCategory)
 router.get("/findSingleCategory/:id", controllers.findSingleCategory)
-router.put("/updateCategory/:id", controllers.updateCategory)
-router.delete("/deleteCategory/:id", controllers.deleteCategory)
+router.post("/updateCategory", controllers.updateCategory)
+router.post("/deleteCategory", controllers.deleteCategory)
 
 
 
 ///////////subCategory controller//////
 router.post("/addSubCategory", controllerss.addSubCategory)
-router.get("/findSubCategory", controllerss.findSubCategory)
+router.get("/getSubCategory", controllerss.getSubCategory)
 router.get("/findSingleSubCategory/:id", controllerss.findSingleSubCategory)
-router.put("/updateSubCategory/:id", controllerss.updateSubCategory)
-router.delete("/deleteSubCategory/:id", controllerss.deleteSubCategory)
+router.post("/updateSubCategory", controllerss.updateSubCategory)
+router.post("/deleteSubCategory", controllerss.deleteSubCategory)
 
 
 module.exports = router;
