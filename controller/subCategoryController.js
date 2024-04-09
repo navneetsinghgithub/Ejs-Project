@@ -7,7 +7,9 @@ const session = require("express-session")
 module.exports = {
     addSubCategory: async (req, res) => {
         try {
-
+            if (!req.session.users) {
+                res.redirect("/loginPage")
+            }
             const v = new Validator(req.body, {
                 name: "required",
                 categoryId: "required",
@@ -21,8 +23,6 @@ module.exports = {
                     body: {}
                 })
             }
-
-
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
@@ -31,18 +31,9 @@ module.exports = {
                 name: req.body.name, image: req.body.image,
                 categoryId: req.body.categoryId
             })
-            return res.json({
-                success: true,
-                status: 200,
-                message: "add data",
-                body: data
-            })
+            res.redirect("/getSubCategory")
         } catch (error) {
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error",
-            })
+            console.log(error, "error");
         }
     },
 
@@ -64,28 +55,29 @@ module.exports = {
             const data = await subCategoryModel.findById({
                 _id: req.params.id
             }).populate("categoryId")
-            console.log(data,"----------====");
+            console.log(data, "----------====");
 
         } catch (error) {
-         console.log(error,"error");
+            console.log(error, "error");
         }
     },
 
     updateSubCategory: async (req, res) => {
         try {
+            console.log(req.body, "============");
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
-            
+
             const data = await subCategoryModel.findByIdAndUpdate({
                 _id: req.body.id
-            }, { name: req.body.name,categoryId:req.body.categoryId,  image: req.body.image }, { new: true })
-          
+            }, { name: req.body.name, categoryId: req.body.categoryId, image: req.body.image }, { new: true })
 
-         res.redirect("/getSubCategory")
+
+            res.redirect("/getSubCategory")
         } catch (error) {
-        console.log(error,"error");
+            console.log(error, "error");
         }
     },
 
@@ -94,9 +86,9 @@ module.exports = {
             const data = await subCategoryModel.findByIdAndDelete({
                 _id: req.body.id
             })
- 
+
         } catch (error) {
-          console.log(error,"error");
+            console.log(error, "error");
         }
     },
 }

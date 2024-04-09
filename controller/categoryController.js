@@ -6,6 +6,9 @@ module.exports = {
     createCategory: async (req, res) => {
         try {
 
+            if (!req.session.users) {
+                res.redirect("/loginPage")
+            }
             const v = new Validator(req.body, {
                 name: "required",
             })
@@ -27,10 +30,8 @@ module.exports = {
             const data = await categoryModel.create({
                 name: req.body.name, image: req.body.image
             })
-            return res.json({
-                message:"created",
-                body:data
-            })
+            res.redirect("/getCategory")
+        //  console.log(data,"=======");
   
 
         } catch (error) {

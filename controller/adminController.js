@@ -4,6 +4,7 @@ const userModel = require("../model/userModel")
 const categoryModel = require("../model/categoryModel")
 const subcategoryModel = require("../model/subCategoryModel");
 const session = require("express-session");
+const { addSubCategory } = require("./subCategoryController");
 
 
 module.exports = {
@@ -119,6 +120,18 @@ module.exports = {
 
 
   /////////////////////////////Category/////////////////////
+  addCategory: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      res.render("category/addCategory", { session: req.session.users })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+
   categoryView: async (req, res) => {
     try {
 
@@ -147,6 +160,19 @@ module.exports = {
     }
   },
 
+  addSubCategory: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const DataCategory = await subcategoryModel.find();
+      res.render("category/addSubCategory", { session: req.session.users, DataCategory })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+
   subCategoryView: async (req, res) => {
     try {
       if (!req.session.users) {
@@ -161,15 +187,17 @@ module.exports = {
 
   editSubCategory: async (req, res) => {
     try {
-   
+
+      const DataCategory = await subcategoryModel.find();
+      // console.log(DataCategory,"DataCategory");
       const data = await subcategoryModel.findById({
         _id: req.params.id
       })
-     
+      console.log(data, "===============");
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      res.render("category/editSubCategory", { session: req.session.users,data })
+      res.render("category/editSubCategory", { session: req.session.users, data, DataCategory })
     } catch (error) {
       console.log(error, "error");
     }

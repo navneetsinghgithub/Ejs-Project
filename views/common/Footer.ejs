@@ -69,6 +69,31 @@
         }
     })
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<script>
+    // Initialize Feather Icons
+    feather.replace();
+
+    // Function to toggle password visibility
+    function togglePasswordVisibility(inputId, eyeIconId) {
+        const passwordInput = document.getElementById(inputId);
+        const eyeIcon = document.getElementById(eyeIconId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.setAttribute("data-feather", "eye-off");
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.setAttribute("data-feather", "eye");
+        }
+
+        // Refresh the Feather Icons to reflect the changes
+        feather.replace();
+    }
+</script>
+
+
 </body>
 <!-- END: Body-->
 

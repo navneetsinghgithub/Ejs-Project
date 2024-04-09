@@ -49,10 +49,10 @@
                       <!--/ header section -->
 
                       <!-- form -->
-                      <form class="validate-form mt-2" action="/updateSubCategory" method="post" enctype="multipart/form-data">
+                      <form class="validate-form mt-2" action="/addSubCategory" method="post" enctype="multipart/form-data">
                         <div class="row">
 
-                      
+
 
                           <div class="col-12 col-sm-6">
                             <div class="mb-1">
@@ -63,7 +63,7 @@
                             </div>
                           </div>
                           <a href="#" class="me-25">
-                            <img src="/images/userImage/<%-data.image %>" id="account-upload-img" class="rounded me-50"  alt=" image" height="80" width="80" />
+                            <img src="" id="account-upload-img" class="rounded me-50"  alt=" image" height="80" width="80" />
                           </a>
                           <!-- upload and reset button -->
                           <div class="mt-75 ms-1">
@@ -71,38 +71,33 @@
                           <div class="col-12 col-sm-6">
 
                             <div class="col-12 my-2">
-                              <div class="mb-1 row">
-                                <div class="col-sm-12">
-                                  <label class="col-form-label" for="name">Category Name</label>
+                                <div class="mb-1 row">
+                                  <div class="col-sm-12">
+                                    <label class="col-form-label" for="first-name">category</label>
+                                  </div>
+                                  <div class="col-sm-12">
+                                    <select class="form-select" id="categoryId" name="categoryId">
+                                      <option>select category</option>
+                                      <% DataCategory.forEach((data, i)=> { %>
+                                      <option value="<%= data?._id%>">
+                                        <%= data?.name%>
+                                      </option>
+                                      <% }) %>
+                                    </select>
+                                  </div>
                                 </div>
-                                <div class="col-sm-12">
-                                  <select class="form-select" id="categoryId" name="categoryId">
-                                    <% DataCategory.forEach((data, i)=> { %>
-                                    <option value="<%= data._id %>" <%=data?.categoryId?.name
-                                                                  ? 'selected' : '' %>><%= data?.name %>
-                                    </option>
-                                    <% }) %>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
+                              </div>+
 
-
-                            <!-- <div class="mb-1">
-                              <label class="form-label" for="account-username">Category Name</label>
-                              <input type="text" class="form-control" id="categoryId" name="categoryId" placeholder="name" value="<%-data?.categoryId?.name%>" />
-                            </div> -->
-  
 
 
                             <div class="mb-1">
                               <label class="form-label" for="account-username">Name</label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="name" value="<%-data.name%>" />
+                              <input type="text" class="form-control" id="name" name="name" placeholder="name" />
                             </div>
-                         
                           </div>
-                          <input type="hidden" class="form-control" id="name" name="id" placeholder="id" value="<%-data.id%>" />             
+
                           <div class="col-12">
+
                             <button type="submit" class="btn btn-primary mt-2 me-1" href="/getSubCategory">Save</button>
                             <a type="reset" class="btn btn-outline-secondary mt-2" href="/getSubCategory">Cancel</a>
                           </div>

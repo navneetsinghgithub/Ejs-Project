@@ -10,21 +10,10 @@ module.exports = {
             const data = await cmsModel.create({
                 title: req.body.title, content: req.body.content, type: req.body.type
             })
-
             console.log("cms created success");
-            // return res.json({
-            //     success: true,
-            //     status: 200,
-            //     message: "cms created success",
-            //     body: data
-            // })
         } catch (error) {
             console.log("error not create cms");
-            // return res.json({
-            //     success: false,
-            //     status: 400,
-            //     message: "error not create cms"
-            // })
+      
         }
     },
 
@@ -96,7 +85,7 @@ module.exports = {
                 title: req.body.title,
                 content: req.body.editor1
             }, { new: true })
-           
+
 
             res.redirect('/termConditionPage')
         } catch (error) {
