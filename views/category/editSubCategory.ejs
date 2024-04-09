@@ -79,7 +79,7 @@
                                   <select class="form-select" id="categoryId" name="categoryId">
                                     <% DataCategory.forEach((data, i)=> { %>
                                     <option value="<%= data._id %>" <%=data?.categoryId?.name
-                                                                  ? 'selected' : '' %>><%= data?.name %>
+                                                                  ? 'selected' : '' %>><%= data?.categoryId?.name %>
                                     </option>
                                     <% }) %>
                                   </select>

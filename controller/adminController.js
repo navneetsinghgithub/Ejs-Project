@@ -47,7 +47,8 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      res.render("common/editProfile", { session: req.session.users })
+      const msg = req.flash("msg");
+      res.render("common/editProfile", { session: req.session.users,msg })
     } catch (error) {
       console.log(error);
     }
@@ -165,7 +166,8 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      const DataCategory = await subcategoryModel.find();
+      const DataCategory = await categoryModel.find();
+      // console.log(DataCategory,"DataCategory");/
       res.render("category/addSubCategory", { session: req.session.users, DataCategory })
     } catch (error) {
       console.log(error, "error");

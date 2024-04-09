@@ -1,4 +1,3 @@
-const { json } = require("express")
 const { tokenGenerate } = require("../jwt/jsonWebToken")
 const userModel = require("../model/userModel")
 const { imageupload, checkValidation } = require("../middleWare/helper")
@@ -47,7 +46,6 @@ module.exports = {
                     body: {}
                 })
             }
-
 
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
@@ -154,6 +152,7 @@ module.exports = {
             req.session.users = login
 
             res.redirect("/dashboard")
+            res.flash("msg", "updated admin profile")
             console.log("updated admin profile");
 
         } catch (error) {
@@ -241,32 +240,26 @@ module.exports = {
     changePassword: async (req, res) => {
         try {
             const data = await userModel.findOne({ _id: req.session.users._id })
-            const decryptPassword = await bcrypt.compare(req.body.password, data.password)
+            const decryptPassword = await bcrypt.compare(req.body.oldPassword, data.password)
             if (decryptPassword == false) {
-                console.log("password does not match");
-
-            }
-            if (req.body.newPassword !== req.body.confirmPassword) {
-                console.log("new password and confirm password does not match");
-
+                req.flash('error', 'Old pass does not match')             
             }
             const encryptPassword = await bcrypt.hash(req.body.newPassword, saltRound)
             data.password = encryptPassword
             data.save()
-            req.flash("msg", "password updated successfully")
-            console.log("password updated successfully");
-
+            req.flash("success", "password updated successfully")
+            // console.log("password updated successfully");
+            return res.redirect('/changePasswordPage')
         } catch (error) {
             console.log(error, "error");
-
         }
-
     },
 
     logout: async (req, res) => {
         try {
 
             delete req.session.users
+            res.flash("Logout successfully ")
             res.redirect('/loginPage')
         } catch (error) {
             console.log(error, "error");
@@ -275,7 +268,7 @@ module.exports = {
 
     status: async (req, res) => {
         try {
-            console.log(req.params,"ewkjulgyhsj" );
+            console.log(req.params, "ewkjulgyhsj");
             const data = await userModel.findByIdAndUpdate({
                 _id: req.params.id
             }, { status: req.body.status }, { new: true })
@@ -283,8 +276,8 @@ module.exports = {
             return res.status(200).json({
                 code: 200,
                 msg: req.flash("msg", "Status update successfully"),
-              });
-          
+            });
+
         } catch (error) {
             console.log(error, "error");
 
