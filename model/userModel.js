@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     image:
         { type: String },
     role:
-        { type: Number, enum: [0, 1], default: 1 },   //admin = 0 , user = 1  
+        { type: Number, enum: [0, 1], default: 1 },   //admin = 0 , patient = 1  , doctor=2
     status:
         { type: String  },  //inactive = 0 , active = 1
     token:

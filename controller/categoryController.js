@@ -10,7 +10,7 @@ module.exports = {
                 res.redirect("/loginPage")
             }
             const v = new Validator(req.body, {
-                name: "required",
+                Dname: "required",
             })
             let errorResponse = await checkValidation(v)
             if (errorResponse) {
@@ -28,8 +28,9 @@ module.exports = {
                 if (image) req.body.image = imageupload(image, "userImage");
             }
             const data = await categoryModel.create({
-                name: req.body.name, image: req.body.image
+                name: req.body.name, image: req.body.image 
             })
+            
             res.redirect("/getCategory")
         //  console.log(data,"=======");
   

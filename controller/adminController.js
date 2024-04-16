@@ -1,10 +1,14 @@
-const { redirect } = require("react-router-dom");
+const { redirect, Await } = require("react-router-dom");
 const cmsModel = require("../model/cmsModel")
 const userModel = require("../model/userModel")
 const categoryModel = require("../model/categoryModel")
 const subcategoryModel = require("../model/subCategoryModel");
+const bokingModel = require("../model/bokingModel")
+const patientModel = require("../model/patientModel")
+const doctorModel = require("../model/doctorModel")
 const session = require("express-session");
 const { addSubCategory } = require("./subCategoryController");
+const patient = require("../model/patientModel");
 
 
 module.exports = {
@@ -48,7 +52,7 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const msg = req.flash("msg");
-      res.render("common/editProfile", { session: req.session.users,msg })
+      res.render("common/editProfile", { session: req.session.users, msg })
     } catch (error) {
       console.log(error);
     }
@@ -203,7 +207,104 @@ module.exports = {
     } catch (error) {
       console.log(error, "error");
     }
-  }
+  },
 
+
+
+
+
+  //////////////////////////////////booking////////
+
+
+
+  booking: async (req, res) => {
+    try {
+
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const bokingData = await bokingModel.find().populate(['doctorId'])
+
+
+      res.render("booking/boking", { session: req.session.users, bokingData })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+  bookingView: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const Data = await bokingModel.findOne({ _id: req.params.id }).populate(['doctorId'])
+      res.render("booking/bookingView", { session: req.session.users, Data })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+  doctor: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const getDData = await doctorModel.find()
+      // console.log(getDData,"========");
+      res.render("booking/doctor", { session: req.session.users, getDData })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+  addDoctor: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const docData = await doctorModel.find()
+     
+      res.render("booking/addDoctor", { session: req.session.users, docData })
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  doctorView: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const Data = await doctorModel.findOne({ _id: req.params.id })
+      res.render("booking/doctorView", { session: req.session.users, Data })
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  patient: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const getData = await patientModel.find()
+      // console.log(getData,"=========>=")
+      res.render("booking/patient", { session: req.session.users, getData })
+    } catch (error) {
+      console.log(error, "error");
+    }
+  },
+
+
+  // getUser : async (req,res)=>{
+  //   try {
+  //     if (!req.session.users) {
+  //       return res.redirect("/loginPage")
+  //     }
+  //     res.render("common/user",{ session: req.session.users })
+  //   } catch (error) {
+  //     console.log(error,"error");
+  //   }
+  // }
 
 }

@@ -1,5 +1,7 @@
 const { tokenGenerate } = require("../jwt/jsonWebToken")
 const userModel = require("../model/userModel")
+const patientModel = require("../model/patientModel")
+const doctorModel = require("../model/doctorModel")
 const { imageupload, checkValidation } = require("../middleWare/helper")
 const bcrypt = require("bcrypt")
 const { Validator } = require("node-input-validator")
@@ -80,10 +82,10 @@ module.exports = {
         }
     },
 
-    login: async (req, res) => {
+    login: async (req, res) => {0
         try {
 
-            let login = await userModel.findOne({ email: req.body.email })
+            let login = await patientModel.findOne({ email: req.body.email})
             if (!login) {
                 req.flash("msg", "Data not found")
                 res.redirect('/loginPage')
@@ -175,6 +177,10 @@ module.exports = {
         }
     },
 
+
+   
+
+
     getSingleUser: async (req, res) => {
         try {
             const data = await userModel.findById({
@@ -242,7 +248,7 @@ module.exports = {
             const data = await userModel.findOne({ _id: req.session.users._id })
             const decryptPassword = await bcrypt.compare(req.body.oldPassword, data.password)
             if (decryptPassword == false) {
-                req.flash('error', 'Old pass does not match')             
+                req.flash('error', 'Old pass does not match')
             }
             const encryptPassword = await bcrypt.hash(req.body.newPassword, saltRound)
             data.password = encryptPassword
@@ -257,9 +263,7 @@ module.exports = {
 
     logout: async (req, res) => {
         try {
-
             delete req.session.users
-            res.flash("Logout successfully ")
             res.redirect('/loginPage')
         } catch (error) {
             console.log(error, "error");
@@ -268,8 +272,8 @@ module.exports = {
 
     status: async (req, res) => {
         try {
-            console.log(req.params, "ewkjulgyhsj");
-            const data = await userModel.findByIdAndUpdate({
+            // console.log(req.params, "ewkjulgyhsj");
+            const data = await doctorModel.findByIdAndUpdate({
                 _id: req.params.id
             }, { status: req.body.status }, { new: true })
             console.log("Status update successfully");

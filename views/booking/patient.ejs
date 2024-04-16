@@ -11,7 +11,7 @@
                             <div class="row">
                                 <div class="card">
                                     <div class="card-header border-bottom">
-                                        <h4 class="card-title">Listing</h4>
+                                        <h4 class="card-title"> patient Listing</h4>
                                     </div>
                                     <br>
                                     <div class="card-DataTable table-responsive">
@@ -19,19 +19,17 @@
                                             <thead>
                                                 <tr>
                                                     <th>S NO.</th>
-                                                    <th>First Name</th>
-                                                    <th>Email</th>
+                                                    <th> Name</th>                                            
                                                     <th>Phone</th>
                                                     <th>Image</th>
-                                                    <% if(Data[0].role=="2" ) { %>
-                                                    <th>Appointment</th>
-                                                    <%}%>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Age</th>                                        
+                                                    <!-- <th>Appointment</th>                                     -->
+                                                    <!-- <th>Status</th> -->
+                                                    <!-- <th>Action</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%Data.forEach(function(data,i) {%>
+                                                <%getData.forEach(function(data,i) {%>
                                                     <tr>
                                                         <td>
                                                             <%=1+i%>
@@ -39,28 +37,22 @@
                                                         <td>
                                                             <%=data.name%>
                                                         </td>
-                                                        <!-- <td>
-                                                            <%=data.lastname%>
-                                                        </td> -->
+                                                     
+                                                       
                                                         <td>
-                                                            <%=data.email%>
-                                                        </td>
-                                                        <td>
-                                                            <%=data.contact%>
+                                                            <%=data.phone%>
                                                         </td>
                                                         <td>
                                                             <img src="/images/userImage/<%=data.image%>" height="50"
                                                                 width="50" class="rounded-circle" alt="">
                                                         </td>
+                                                                                                 
+                                                           <td>
+                                                            <%=data.age%>
+                                                        </td>
+                                                  
 
-                                                        <% if(data.role=="2" ) { %>
-                                                            <td>
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-outline-danger">Book</button>
-                                                            </td>
-                                                            <%}%>
-
-                                                                <td>
+                                                                <!-- <td>
                                                                     <% if(data.status=="Active" ) { %>
                                                                         <button onclick="changeStatus(this)"
                                                                             id="id<%=data._id%>"
@@ -74,15 +66,15 @@
                                                                                 data-id="<%=data._id%>" value="Active"
                                                                                 style="display: flex;font-size: 9px;">Rejected</button>
                                                                             <% } %>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="/userView/<%=data._id%>"
+                                                                </td> -->
+                                                                <!-- <td>
+                                                                    <a href=""
                                                                         class="btn btn-sm btn-outline-success"><i
-                                                                            data-feather='eye'></i></a>
-                                                                    <button onclick="confirmDelete('<%=data._id%>')"
+                                                                            data-feather='eye'></i></a> -->
+                                                                    <!-- <button onclick="confirmDelete('<%=data._id%>')"
                                                                         class="btn btn-sm btn-outline-danger""> <i
-                                                data-feather='trash'></i> </button>
-                                        </td>
+                                                data-feather='trash'></i> </button> -->
+                                        <!-- </td> -->
                                     </tr>
                                     <% } )%>
                                 </tbody>
@@ -113,7 +105,7 @@
                                             });
                                         </script>
 
-                                        <script>
+                                        <!-- <script>
                                             function confirmDelete(id) {
                                                 const swalWithBootstrapButtons = Swal.mixin({
                                                     customClass: {
@@ -157,9 +149,9 @@
                                                     }
                                                 })
                                             }
-                                        </script>
+                                        </script> -->
 
-                                        <script>
+                                        <!-- <script>
                                             function changeStatus(button) {
                                                 var _id = button.getAttribute('data-id');
                                                 var value = button.getAttribute('value');
@@ -179,4 +171,4 @@
                                                     }
                                                 });
                                             }
-                                        </script>
+                                        </script>  -->

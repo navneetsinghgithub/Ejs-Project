@@ -11,7 +11,10 @@
                             <div class="row">
                                 <div class="card">
                                     <div class="card-header border-bottom">
-                                        <h4 class="card-title">Listing</h4>
+                                        <h4 class="card-title"> Listing</h4>
+                                        <a href="/addDoctor">
+                                            <button type="submit" class="btn btn-icon icon-left btn-primary shadow">Add Booking</button></a>
+                                        </div>
                                     </div>
                                     <br>
                                     <div class="card-DataTable table-responsive">
@@ -19,69 +22,60 @@
                                             <thead>
                                                 <tr>
                                                     <th>S NO.</th>
-                                                    <th>First Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Image</th>
-                                                    <% if(Data[0].role=="2" ) { %>
-                                                    <th>Appointment</th>
-                                                    <%}%>
+                                                    <th>Doctor Name</th>
+                                                     <th>patient Name</th>
+                                                    <th>Title</th>
+                                                    <th>Fees</th>    
+                                                    <th>Date</th>                                                                                                
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%Data.forEach(function(data,i) {%>
+                                                <%bokingData.forEach(function(data,i) {%>
                                                     <tr>
                                                         <td>
                                                             <%=1+i%>
                                                         </td>
                                                         <td>
-                                                            <%=data.name%>
-                                                        </td>
-                                                        <!-- <td>
-                                                            <%=data.lastname%>
-                                                        </td> -->
-                                                        <td>
-                                                            <%=data.email%>
+                                                            <%=data.doctorId?.name%>
                                                         </td>
                                                         <td>
-                                                            <%=data.contact%>
+                                                            <%=data.patientName%>
+                                                        </td>
+                                                         <td>
+                                                            <%=data.title%>
                                                         </td>
                                                         <td>
-                                                            <img src="/images/userImage/<%=data.image%>" height="50"
-                                                                width="50" class="rounded-circle" alt="">
+                                                            <%=data.fees%>
                                                         </td>
-
-                                                        <% if(data.role=="2" ) { %>
-                                                            <td>
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-outline-danger">Book</button>
-                                                            </td>
-                                                            <%}%>
-
-                                                                <td>
-                                                                    <% if(data.status=="Active" ) { %>
-                                                                        <button onclick="changeStatus(this)"
-                                                                            id="id<%=data._id%>"
-                                                                            class="btn btn-success status btn-sm"
-                                                                            data-id="<%=data._id%>"
-                                                                            value="Inactive">Accept</button>
-                                                                        <% } else { %>
-                                                                            <button onclick="changeStatus(this)"
-                                                                                id="id<%=data._id%>"
-                                                                                class="btn btn-danger status btn-sm "
-                                                                                data-id="<%=data._id%>" value="Active"
-                                                                                style="display: flex;font-size: 9px;">Rejected</button>
-                                                                            <% } %>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="/userView/<%=data._id%>"
-                                                                        class="btn btn-sm btn-outline-success"><i
-                                                                            data-feather='eye'></i></a>
-                                                                    <button onclick="confirmDelete('<%=data._id%>')"
-                                                                        class="btn btn-sm btn-outline-danger""> <i
-                                                data-feather='trash'></i> </button>
+                                                        <td>
+                                                            <%=data.date%>
+                                                        </td>
+                                                       
+                                                       
+                                                        <td>
+                                                            <% if(data.status=="Active" ) { %>
+                                                                <button onclick="changeStatus(this)"
+                                                                    id="id<%=data._id%>"
+                                                                    class="btn btn-danger status btn-sm"
+                                                                    data-id="<%=data._id%>"
+                                                                    value="Inactive">Reject</button>
+                                                                <% } else { %>
+                                                                    <button onclick="changeStatus(this)"
+                                                                        id="id<%=data._id%>"
+                                                                        class="btn btn-success status btn-sm"
+                                                                        data-id="<%=data._id%>" value="Active"
+                                                                        style="display: flex;font-size: 9px;">Accept</button>
+                                                                    <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <a href="bookingView/<%=data._id%>"
+                                                                class="btn btn-sm btn-outline-success"><i
+                                                                    data-feather='eye'></i></a>
+                                                            <!-- <button onclick="confirmDelete('<%=data._id%>')"
+                                                                class="btn btn-sm btn-outline-danger""> <i
+                                                data-feather='trash'></i> </button> -->
                                         </td>
                                     </tr>
                                     <% } )%>
@@ -113,8 +107,8 @@
                                             });
                                         </script>
 
-                                        <script>
-                                            function confirmDelete(id) {
+                                        <!-- <script>
+                                            function confirmDelete(id) {                                         
                                                 const swalWithBootstrapButtons = Swal.mixin({
                                                     customClass: {
                                                         confirmButton: 'btn btn-outline-danger btn-sm ',
@@ -130,8 +124,8 @@
                                                     confirmButtonText: 'Yes',
                                                     cancelButtonText: 'No',
                                                     reverseButtons: true
-                                                }).then((isConfirm) => {
-                                                    if (isConfirm.isConfirmed) {
+                                                }).then((isConfirm) => {                                                                                               
+                                                    if (isConfirm.isConfirmed) {                                             
                                                         $.ajax({
                                                             url: "/deleteUser",
                                                             type: 'post',
@@ -157,7 +151,7 @@
                                                     }
                                                 })
                                             }
-                                        </script>
+                                        </script> -->
 
                                         <script>
                                             function changeStatus(button) {

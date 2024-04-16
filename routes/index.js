@@ -6,6 +6,7 @@ const cmsController = require("../controller/cmsController")
 const controllers = require("../controller/categoryController")
 const controllerss = require("../controller/subCategoryController")
 const { auth } = require('../middleWare/auth');
+const bokingControler = require('../controller/bokingControler');
 
 
 ////////////////////////////////admin////////////////////////////////////////////////////////////////////////
@@ -24,14 +25,15 @@ router.get("/categoryView/:id",adminController.categoryView)
 router.get("/subCategoryView/:id",adminController.subCategoryView)
 router.get("/editCategory/:id",adminController.editCategory)
 router.get("/editSubCategory/:id",adminController.editSubCategory)
-
-
-
+router.get("/booking",adminController.booking)
+router.get("/doctor",adminController.doctor)
+router.get("/patient",adminController.patient)
+router.get("/addDoctor",adminController.addDoctor)
 
 
 ////////////////user//////////////////
 router.post("/signup", userController.signup)
-router.get("/getUser",  userController.getUser)
+// router.get("/getUser",  userController.getUser)
 router.get("/getSingleUser/:id", userController.getSingleUser)
 router.put("/updateUser/:id", userController.updateUser)
 router.post("/deleteUser", userController.deleteUser)
@@ -69,6 +71,30 @@ router.get("/getSubCategory", controllerss.getSubCategory)
 router.get("/findSingleSubCategory/:id", controllerss.findSingleSubCategory)
 router.post("/updateSubCategory", controllerss.updateSubCategory)
 router.post("/deleteSubCategory", controllerss.deleteSubCategory)
+
+
+///////////////////////////booking//////////////////
+router.post("/createBoking", bokingControler.createBoking)
+router.get("/getBoking", bokingControler.getBoking)
+router.get("/getSingleBoking/:id", bokingControler.getSingleBoking)
+router.get("/bookingView/:id",adminController.bookingView)
+
+
+
+//////////////////////////patient/////////////
+router.post("/addPatient",bokingControler.addPatient)
+
+
+
+////////////////////////////doctor///////////////////
+router.post("/addDoctor",bokingControler.addDoctor)
+router.post("/getDoctor",bokingControler.getDoctor)
+
+router.get("/doctorView/:id",adminController.doctorView)
+
+
+
+
 
 
 module.exports = router;
