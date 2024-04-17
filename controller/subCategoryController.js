@@ -44,7 +44,6 @@ module.exports = {
             }
             const Data = await subCategoryModel.find().populate("categoryId")
             res.render("category/subcategory", { Data, session: req.session.users })
-
         } catch (error) {
             console.log(error, "error");
         }
@@ -56,7 +55,6 @@ module.exports = {
                 _id: req.params.id
             }).populate("categoryId")
             console.log(data, "----------====");
-
         } catch (error) {
             console.log(error, "error");
         }
@@ -64,17 +62,13 @@ module.exports = {
 
     updateSubCategory: async (req, res) => {
         try {
-            console.log(req.body, "============");
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
-
             const data = await subCategoryModel.findByIdAndUpdate({
                 _id: req.body.id
             }, { name: req.body.name, categoryId: req.body.categoryId, image: req.body.image }, { new: true })
-
-
             res.redirect("/getSubCategory")
         } catch (error) {
             console.log(error, "error");
@@ -86,7 +80,6 @@ module.exports = {
             const data = await subCategoryModel.findByIdAndDelete({
                 _id: req.body.id
             })
-
         } catch (error) {
             console.log(error, "error");
         }

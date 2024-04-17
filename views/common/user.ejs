@@ -1,7 +1,7 @@
-<%-include("../common/header.ejs")%>
-    <%-include("../common/Navbar.ejs")%>
-        <%-include("../common/Sidebar.ejs")%>
-            <!-- BEGIN: Content-->
+<%-include(".. /common/header.ejs")%>
+    <%-include(".. /common/Navbar.ejs")%>
+        <%-include(".. /common/Sidebar.ejs")%>
+
             <div class="app-content content ">
                 <div class="content-overlay"></div>
                 <div class="header-navbar-shadow"></div>
@@ -24,10 +24,10 @@
                                                     <th>Phone</th>
                                                     <th>Image</th>
                                                     <% if(Data[0].role=="2" ) { %>
-                                                    <th>Appointment</th>
-                                                    <%}%>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
+                                                        <th>Appointment</th>
+                                                        <%}%>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -52,14 +52,12 @@
                                                             <img src="/images/userImage/<%=data.image%>" height="50"
                                                                 width="50" class="rounded-circle" alt="">
                                                         </td>
-
                                                         <% if(data.role=="2" ) { %>
                                                             <td>
                                                                 <button type="submit"
                                                                     class="btn btn-sm btn-outline-danger">Book</button>
                                                             </td>
                                                             <%}%>
-
                                                                 <td>
                                                                     <% if(data.status=="Active" ) { %>
                                                                         <button onclick="changeStatus(this)"
@@ -163,7 +161,6 @@
                                             function changeStatus(button) {
                                                 var _id = button.getAttribute('data-id');
                                                 var value = button.getAttribute('value');
-
                                                 $.ajax({
                                                     type: "post",
                                                     url: "/status/" + _id,

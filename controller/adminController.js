@@ -12,7 +12,6 @@ const patient = require("../model/patientModel");
 
 
 module.exports = {
-
   dashboard: async (req, res) => {
     try {
       if (!req.session.users) {
@@ -21,7 +20,6 @@ module.exports = {
       const msg = req.flash("msg");
       res.render("common/dashboard", { session: req.session.users, msg });
     } catch (error) {
-      console.log(error);
       console.log(error);
     }
   },
@@ -73,8 +71,6 @@ module.exports = {
 
   userView: async (req, res) => {
     try {
-      // console.log(req.params,"====================",req.body);return;
-
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
@@ -122,8 +118,6 @@ module.exports = {
     }
   },
 
-
-
   /////////////////////////////Category/////////////////////
   addCategory: async (req, res) => {
     try {
@@ -135,7 +129,6 @@ module.exports = {
       console.log(error, "error");
     }
   },
-
 
   categoryView: async (req, res) => {
     try {
@@ -171,7 +164,6 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const DataCategory = await categoryModel.find();
-      // console.log(DataCategory,"DataCategory");/
       res.render("category/addSubCategory", { session: req.session.users, DataCategory })
     } catch (error) {
       console.log(error, "error");
@@ -193,13 +185,10 @@ module.exports = {
 
   editSubCategory: async (req, res) => {
     try {
-
       const DataCategory = await subcategoryModel.find();
-      // console.log(DataCategory,"DataCategory");
       const data = await subcategoryModel.findById({
         _id: req.params.id
       })
-      console.log(data, "===============");
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
@@ -209,23 +198,14 @@ module.exports = {
     }
   },
 
-
-
-
-
   //////////////////////////////////booking////////
-
-
 
   booking: async (req, res) => {
     try {
-
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
       const bokingData = await bokingModel.find().populate(['doctorId'])
-
-
       res.render("booking/boking", { session: req.session.users, bokingData })
     } catch (error) {
       console.log(error, "error");
@@ -250,7 +230,6 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const getDData = await doctorModel.find()
-      // console.log(getDData,"========");
       res.render("booking/doctor", { session: req.session.users, getDData })
     } catch (error) {
       console.log(error, "error");
@@ -263,7 +242,7 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const docData = await doctorModel.find()
-     
+
       res.render("booking/addDoctor", { session: req.session.users, docData })
     } catch (error) {
       console.log(error);
@@ -288,7 +267,6 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const getData = await patientModel.find()
-      // console.log(getData,"=========>=")
       res.render("booking/patient", { session: req.session.users, getData })
     } catch (error) {
       console.log(error, "error");

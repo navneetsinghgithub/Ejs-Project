@@ -6,20 +6,14 @@ const bcrypt = require("bcrypt")
 const saltRound = 10
 
 
-
-
-
 module.exports = {
     createBoking: async (req, res) => {
         try {
-            // const doctorId = req.params.id
-            // const patientId = req.session.users._id
-            
             const dataBook = await bokingModel.create({
-                doctorId: req.body.doctorId, patientName:req.body.patientName,
-                date: req.body.date, status: req.body.status, title: req.body.title,fees:req.body.fees
+                doctorId: req.body.doctorId, patientName: req.body.patientName,
+                date: req.body.date, status: req.body.status, title: req.body.title, fees: req.body.fees
             })
-          console.log(error,"error");
+            console.log(error, "error");
             res.redirect("/booking")
         } catch (error) {
             console.log(error, "error");
@@ -28,19 +22,16 @@ module.exports = {
 
     getBoking: async (req, res) => {
         try {
-
             if (!req.session.users) {
                 res.redirect("/loginPage")
             }
             const getData = await bokingModel.find().populate(['doctorId', 'patientId'])
-
             res.render("booking/boking", { getData, session: req.session.users })
-
         } catch (error) {
             console.log(error, "error");
         }
     },
-    
+
     getSingleBoking: async (req, res) => {
         try {
             console.log(req.params, "====>==");
@@ -56,8 +47,6 @@ module.exports = {
                 message: "get single",
                 body: getData
             })
-            // res.render("booking/boking", { getData, session: req.session.users })
-
         } catch (error) {
             console.log(error, "error");
         }
@@ -67,7 +56,6 @@ module.exports = {
     addPatient: async (req, res) => {
         try {
             const password = await bcrypt.hash(req.body.password, saltRound)
-
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
@@ -122,10 +110,9 @@ module.exports = {
 
     getDoctor: async (req, res) => {
         try {
-            console.log(req.body,"========");
-            const getData = await doctorModel.findById({_id:req.body.doctorId})
+            console.log(req.body, "========");
+            const getData = await doctorModel.findById({ _id: req.body.doctorId })
             res.send(getData)
-            // console.log(getData,"getDatagetData");
         } catch (error) {
             console.log(error, "error");
         }

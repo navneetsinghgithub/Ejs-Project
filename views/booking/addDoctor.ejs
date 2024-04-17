@@ -1,122 +1,116 @@
 <%- include("../common/header.ejs") %>
-<body class="vertical-layout vertical-menu-modern navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col=""></body>
 
-<%- include("../common/Navbar.ejs") %>
-<%- include("../common/Sidebar.ejs") %>
+  <body class="vertical-layout vertical-menu-modern navbar-floating footer-static" data-open="click"
+    data-menu="vertical-menu-modern" data-col=""></body>
 
-<div class="app-content content">
-  <div class="content-overlay"></div>
-  <div class="header-navbar-shadow"></div>
-  <div class="content-wrapper container-xxl p-0">
-    <div class="content-header row">
-      <div class="content-header-left col-md-9 col-12 mb-2">
-        <div class="row breadcrumbs-top">
-        </div>
-      </div>
-    </div>
-    <div class="content-body">
-      <section id="page-account-settings">
-        <div class="row">
-          <div class="col-md-9">
-            <div class="card">
-              <div class="card-body">
-                <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane active" id="account-vertical-general" aria-labelledby="account-pill-general" aria-expanded="true">
-                    <form class="validate-form mt-2" action="/createBoking" method="post" enctype="multipart/form-data">
-                      <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <!-- <div class="mb-1">
+  <%- include("../common/Navbar.ejs") %>
+    <%- include("../common/Sidebar.ejs") %>
+
+      <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+          <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+              <div class="row breadcrumbs-top">
+              </div>
+            </div>
+          </div>
+          <div class="content-body">
+            <section id="page-account-settings">
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="account-vertical-general"
+                          aria-labelledby="account-pill-general" aria-expanded="true">
+                          <form class="validate-form mt-2" action="/createBoking" method="post"
+                            enctype="multipart/form-data">
+                            <div class="row">
+                              <div class="col-12 col-sm-6">
+                                <!-- <div class="mb-1">
                             <label class="form-label" for="account-username">Image</label>
                             <label for="account-upload" class="btn btn-sm btn-primary mb-75 me-75">Upload</label>
                             <input type="file" name="image" id="account-upload" hidden accept="image/*" onchange="previewImage(event)" />
                           </div> -->
-                        </div>
-                        <!-- <a href="#" class="me-25">
+                              </div>
+                              <!-- <a href="#" class="me-25">
                           <img src="" id="account-upload-img" class="rounded me-50" alt=" image" height="80" width="80" />
                         </a> -->
-                        <div class="mt-75 ms-1"></div>
-                        <div class="col-12 col-sm-6">
-                          <label class="form-label" for="account-username">Name</label>
-                          <select class="form-select" id="doctorId" name="doctorId" onchange="addDoctor()">
-                            <option>select Doctor</option>
-                            <% docData.forEach((data, i)=> { %>
-                            <option id="id" value="<%= data._id %>">
-                              <%= data.name %>
-                            </option>
-                            <% }) %>
-                          </select>
-
-                          <div class="mb-1 doctorFees">              
-                          </div>
-
-                          <div class="mb-1">
-                            <label class="form-label" for="phone">Patient Name</label>
-                            <input type="text" class="form-control" id="patientName" name="patientName" placeholder="patient Name" />
-                          </div>
-
-                          <div class="mb-1">
-                            <label class="form-label" for="phone">Title</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="title" />
-                          </div>
-
-                          <div class="mb-1">
-                            <label class="form-label" for="phone">Date</label>
-                            <input type="text" class="form-control" id="date" name="date" placeholder="date" />
-                          </div>
-
-                        </div>
-                        <div class="col-12">
-                          <button type="submit" class="btn btn-primary mt-2 me-1" href="/booking">Save</button>
-                          <a type="reset" class="btn btn-outline-secondary mt-2" href="/booking">Cancel</a>
+                              <div class="mt-75 ms-1"></div>
+                              <div class="col-12 col-sm-6">
+                                <label class="form-label" for="account-username">Name</label>
+                                <select class="form-select" id="doctorId" name="doctorId" onchange="addDoctor()">
+                                  <option>select Doctor</option>
+                                  <% docData.forEach((data, i)=> { %>
+                                    <option id="id" value="<%= data._id %>">
+                                      <%= data.name %>
+                                    </option>
+                                    <% }) %>
+                                </select>
+                                <div class="mb-1 doctorFees">
+                                </div>
+                                <div class="mb-1">
+                                  <label class="form-label" for="phone">Patient Name</label>
+                                  <input type="text" class="form-control" id="patientName" name="patientName"
+                                    placeholder="patient Name" />
+                                </div>
+                                <div class="mb-1">
+                                  <label class="form-label" for="phone">Title</label>
+                                  <input type="text" class="form-control" id="title" name="title" placeholder="title" />
+                                </div>
+                                <div class="mb-1">
+                                  <label class="form-label" for="phone">Date</label>
+                                  <input type="text" class="form-control" id="date" name="date" placeholder="date" />
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <button type="submit" class="btn btn-primary mt-2 me-1" href="/booking">Save</button>
+                                <a type="reset" class="btn btn-outline-secondary mt-2" href="/booking">Cancel</a>
+                              </div>
+                            </div>
+                          </form>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
-      </section>
-    </div>
-  </div>
-</div>
+      </div>
 
-<div class="sidenav-overlay"></div>
-<div class="drag-target"></div>
+      <div class="sidenav-overlay"></div>
+      <div class="drag-target"></div>
 
-<%- include("../common/Footer.ejs") %>
-</body>
-</html>
-<script>
-  function addDoctor(id) {
-    var selectElement = document.getElementById("doctorId");
+      <%- include("../common/Footer.ejs") %>
+        </body>
 
-// Get the selected option
-var selectedOption = selectElement.options[selectElement.selectedIndex];
-
-// Get the ID of the selected doctor
-var doctorId = selectedOption.value;
-    
-    $.ajax({
-                url: '/getDoctor', 
-                type: 'post',
-                data: {doctorId: doctorId},
-                success: function(response){ 
-                  console.log(response.fees,"responseresponse");
-                  let fee = response.fees
-                  
-let html = "";
-html +=`
+        </html>
+        <script>
+          function addDoctor(id) {
+            var selectElement = document.getElementById("doctorId");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var doctorId = selectedOption.value;
+            $.ajax({
+              url: '/getDoctor',
+              type: 'post',
+              data: { doctorId: doctorId },
+              success: function (response) {
+                console.log(response.fees, "responseresponse");
+                let fee = response.fees
+                let html = "";
+                html += `
    <label class="form-label" for="phone">Fees</label>
   <input type="text" class="form-control " id="fees" name="fees" value='${response.fees}' placeholder="Fees" />
 `
-                    $(".doctorFees").html(html);
-                },
-                error: function(xhr, status, error){         
-                    console.error(xhr.responseText);
-                }
+                $(".doctorFees").html(html);
+              },
+              error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+              }
             });
-           
-  }
-</script>
+          }
+        </script>

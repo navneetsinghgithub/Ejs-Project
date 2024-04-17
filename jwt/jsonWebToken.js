@@ -2,8 +2,7 @@ const userModel = require("../model/userModel")
 const jwt = require("jsonwebtoken")
 
 module.exports = {
-    tokenGenerate: async (id) => {
-     
+    tokenGenerate: async (id) => {  
         try {
             const secretKey = "123456"
             const token = await jwt.sign({ _id: id }, secretKey)

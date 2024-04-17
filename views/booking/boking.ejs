@@ -51,9 +51,7 @@
                                                         </td>
                                                         <td>
                                                             <%=data.date%>
-                                                        </td>
-                                                       
-                                                       
+                                                        </td>                                                                                                    
                                                         <td>
                                                             <% if(data.status=="Active" ) { %>
                                                                 <button onclick="changeStatus(this)"
@@ -92,9 +90,7 @@
 <div class=" sidenav-overlay">
                                     </div>
                                     <div class="drag-target"></div>
-
                                     <%- include('../common/footer') %>
-
                                         <script>
                                             setTimeout(function () {
                                                 $("div.msg").fadeOut();
@@ -157,7 +153,6 @@
                                             function changeStatus(button) {
                                                 var _id = button.getAttribute('data-id');
                                                 var value = button.getAttribute('value');
-
                                                 $.ajax({
                                                     type: "post",
                                                     url: "/status/" + _id,

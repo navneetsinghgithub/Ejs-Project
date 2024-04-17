@@ -13,7 +13,6 @@ const doctorSchema = new mongoose.Schema({
     fees:
         { type: Number },
 
-
 }, { timestamps: true })
 const doctor = mongoose.model("doctor", doctorSchema)
 module.exports = doctor

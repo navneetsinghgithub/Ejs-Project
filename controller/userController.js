@@ -8,7 +8,6 @@ const { Validator } = require("node-input-validator")
 const { Mongoose } = require("mongoose")
 const saltRound = 10
 module.exports = {
-
     signup: async (req, res) => {
         try {
             const v = new Validator(req.body, {
@@ -25,7 +24,6 @@ module.exports = {
                     body: {}
                 })
             }
-
             const email = await userModel.findOne({
                 email: req.body.email,
             })
@@ -48,12 +46,10 @@ module.exports = {
                     body: {}
                 })
             }
-
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
-
             const password = await bcrypt.hash(req.body.password, saltRound)
             const data = await userModel.create({
                 name: req.body.name, lastname: req.body.lastname, email: req.body.email,
@@ -82,10 +78,10 @@ module.exports = {
         }
     },
 
-    login: async (req, res) => {0
+    login: async (req, res) => {
+        0
         try {
-
-            let login = await userModel.findOne({ email: req.body.email})
+            let login = await userModel.findOne({ email: req.body.email })
             if (!login) {
                 req.flash("msg", "Data not found")
                 res.redirect('/loginPage')
@@ -94,7 +90,6 @@ module.exports = {
                 req.flash("msg", "not verified")
                 res.redirect('/loginPage')
             }
-
             const password = await bcrypt.compare(req.body.password, login.password);
             if (!password) {
                 req.flash("msg", "wrong password")
@@ -104,16 +99,13 @@ module.exports = {
                 req.flash("msg", "Login successfully")
                 res.redirect("/dashboard")
             }
-
         } catch (error) {
             console.log(error, "error");
         }
-
     },
 
     getAdminProfile: async (req, res) => {
         try {
-
             const getProfile = await userModel.findById({
                 _id: req.params.id
             })
@@ -134,32 +126,23 @@ module.exports = {
 
     updateAdminProfile: async (req, res) => {
         try {
-
             // if (!req.session.users || !req.session.users._id) {
             //     return helper.failed(res, "User session not found or missing _id");
             // }
-
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
-
-
             const updateAdminProfile = await userModel.findByIdAndUpdate({
                 _id: req.session.users._id
             }, { name: req.body.name, image: req.body.image, contact: req.body.contact }, { new: true })
-           
-
             let login = await userModel.findOne({ _id: req.session.users._id })
             req.session.users = login
-
             res.redirect("/dashboard")
             // res.flash("msg", "updated admin profile")
             console.log("updated admin profile");
-
         } catch (error) {
             console.log(error);
-
         }
     },
 
@@ -169,17 +152,12 @@ module.exports = {
                 res.redirect("/loginPage")
             }
             let Data = await userModel.find({ role: 1 })
-            // console.log("=======data",Data);return
             res.render("common/user", { Data, session: req.session.users })
         } catch (error) {
             console.log(error)
 
         }
     },
-
-
-   
-
 
     getSingleUser: async (req, res) => {
         try {
@@ -208,7 +186,6 @@ module.exports = {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
             }
-
             const data = await userModel.findByIdAndUpdate({
                 _id: req.params.id
             }, {
@@ -235,13 +212,10 @@ module.exports = {
         try {
 
             const data = await userModel.findByIdAndDelete({ _id: req.body.id });
-            console.log(error, "error");
-
         } catch (error) {
-            console.log('----------------------', error)
+            console.log('-', error)
         }
     },
-
 
     changePassword: async (req, res) => {
         try {
@@ -254,7 +228,6 @@ module.exports = {
             data.password = encryptPassword
             data.save()
             req.flash("success", "password updated successfully")
-            // console.log("password updated successfully");
             return res.redirect('/changePasswordPage')
         } catch (error) {
             console.log(error, "error");
@@ -272,7 +245,6 @@ module.exports = {
 
     status: async (req, res) => {
         try {
-            // console.log(req.params, "ewkjulgyhsj");
             const data = await doctorModel.findByIdAndUpdate({
                 _id: req.params.id
             }, { status: req.body.status }, { new: true })
@@ -281,11 +253,8 @@ module.exports = {
                 code: 200,
                 msg: req.flash("msg", "Status update successfully"),
             });
-
         } catch (error) {
             console.log(error, "error");
-
         }
     }
-
 }
