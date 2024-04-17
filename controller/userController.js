@@ -85,7 +85,7 @@ module.exports = {
     login: async (req, res) => {0
         try {
 
-            let login = await patientModel.findOne({ email: req.body.email})
+            let login = await userModel.findOne({ email: req.body.email})
             if (!login) {
                 req.flash("msg", "Data not found")
                 res.redirect('/loginPage')
@@ -135,9 +135,9 @@ module.exports = {
     updateAdminProfile: async (req, res) => {
         try {
 
-            if (!req.session.users || !req.session.users._id) {
-                return helper.failed(res, "User session not found or missing _id");
-            }
+            // if (!req.session.users || !req.session.users._id) {
+            //     return helper.failed(res, "User session not found or missing _id");
+            // }
 
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
@@ -148,13 +148,13 @@ module.exports = {
             const updateAdminProfile = await userModel.findByIdAndUpdate({
                 _id: req.session.users._id
             }, { name: req.body.name, image: req.body.image, contact: req.body.contact }, { new: true })
+           
 
-            //////////////////////////
             let login = await userModel.findOne({ _id: req.session.users._id })
             req.session.users = login
 
             res.redirect("/dashboard")
-            res.flash("msg", "updated admin profile")
+            // res.flash("msg", "updated admin profile")
             console.log("updated admin profile");
 
         } catch (error) {
