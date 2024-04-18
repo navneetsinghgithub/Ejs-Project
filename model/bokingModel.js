@@ -2,8 +2,8 @@ const mongoose = require("mongoose")
 const bokingSchema = new mongoose.Schema({
     doctorId:
         { type: mongoose.Schema.Types.ObjectId, ref: "doctor" },
-    patientName:
-        { type: String },
+    patientId:
+        { type:  mongoose.Schema.Types.ObjectId, ref: "patient" },
     date:
         { type: String },
     title:

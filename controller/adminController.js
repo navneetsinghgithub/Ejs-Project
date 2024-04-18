@@ -205,7 +205,7 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      const bokingData = await bokingModel.find().populate(['doctorId'])
+      const bokingData = await bokingModel.find().populate(['doctorId', 'patientId'])
       res.render("booking/boking", { session: req.session.users, bokingData })
     } catch (error) {
       console.log(error, "error");
@@ -217,7 +217,7 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      const Data = await bokingModel.findOne({ _id: req.params.id }).populate(['doctorId'])
+      const Data = await bokingModel.findOne({ _id: req.params.id }).populate(['doctorId','patientId'])
       res.render("booking/bookingView", { session: req.session.users, Data })
     } catch (error) {
       console.log(error, "error");
@@ -242,8 +242,8 @@ module.exports = {
         return res.redirect("/loginPage")
       }
       const docData = await doctorModel.find()
-
-      res.render("booking/addDoctor", { session: req.session.users, docData })
+      const patData = await patientModel.find()
+      res.render("booking/addDoctor", { session: req.session.users, docData, patData })
     } catch (error) {
       console.log(error);
     }

@@ -54,7 +54,6 @@ module.exports = {
             const data = await subCategoryModel.findById({
                 _id: req.params.id
             }).populate("categoryId")
-            console.log(data, "----------====");
         } catch (error) {
             console.log(error, "error");
         }

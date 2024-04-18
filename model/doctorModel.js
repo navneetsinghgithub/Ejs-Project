@@ -12,7 +12,8 @@ const doctorSchema = new mongoose.Schema({
         { type: String },
     fees:
         { type: Number },
-
+    role:
+        { type: Number, enum: [0, 1], default: 1 },  // 0 = ent ,  1= nerologist
 }, { timestamps: true })
 const doctor = mongoose.model("doctor", doctorSchema)
 module.exports = doctor

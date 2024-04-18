@@ -41,7 +41,7 @@
                                                             <%=data.doctorId?.name%>
                                                         </td>
                                                         <td>
-                                                            <%=data.patientName%>
+                                                            <%=data.patientId?.name%>
                                                         </td>
                                                          <td>
                                                             <%=data.title%>
@@ -56,15 +56,15 @@
                                                             <% if(data.status=="Active" ) { %>
                                                                 <button onclick="changeStatus(this)"
                                                                     id="id<%=data._id%>"
-                                                                    class="btn btn-danger status btn-sm"
+                                                                    class="btn btn-success status btn-sm"
                                                                     data-id="<%=data._id%>"
-                                                                    value="Inactive">Reject</button>
+                                                                    value="Inactive">Accept</button>
                                                                 <% } else { %>
                                                                     <button onclick="changeStatus(this)"
                                                                         id="id<%=data._id%>"
-                                                                        class="btn btn-success status btn-sm"
+                                                                        class="btn btn-danger status btn-sm"
                                                                         data-id="<%=data._id%>" value="Active"
-                                                                        style="display: flex;font-size: 9px;">Accept</button>
+                                                                        style="display: flex;font-size: 9px;">Reject</button>
                                                                     <% } %>
                                                         </td>
                                                         <td>

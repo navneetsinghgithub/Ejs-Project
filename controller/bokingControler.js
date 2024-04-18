@@ -10,10 +10,9 @@ module.exports = {
     createBoking: async (req, res) => {
         try {
             const dataBook = await bokingModel.create({
-                doctorId: req.body.doctorId, patientName: req.body.patientName,
+                doctorId: req.body.doctorId, patientId: req.body.patientId,
                 date: req.body.date, status: req.body.status, title: req.body.title, fees: req.body.fees
             })
-            console.log(error, "error");
             res.redirect("/booking")
         } catch (error) {
             console.log(error, "error");
@@ -25,7 +24,15 @@ module.exports = {
             if (!req.session.users) {
                 res.redirect("/loginPage")
             }
-            const getData = await bokingModel.find().populate(['doctorId', 'patientId'])
+            const getData = await bokingModel.find().populate({
+                path: 'doctorId',
+                select: 'name'
+            })
+                .populate({
+                    path: 'patientId',
+                    select: 'name'
+                });
+
             res.render("booking/boking", { getData, session: req.session.users })
         } catch (error) {
             console.log(error, "error");
@@ -34,14 +41,12 @@ module.exports = {
 
     getSingleBoking: async (req, res) => {
         try {
-            console.log(req.params, "====>==");
             if (!req.session.users) {
                 res.redirect("/loginPage")
             }
             const getData = await bokingModel.findOne({
                 _id: req.params.id
             })
-            console.log(getData, "getDatagetDatagetData");
             return res.json({
                 status: 200,
                 message: "get single",
@@ -74,14 +79,11 @@ module.exports = {
             console.log(error, "error");
         }
     },
+
     getPatient: async (req, res) => {
         try {
-            const getData = await patientModel.find()
-            return res.json({
-                status: 200,
-                message: "get patient succ",
-                body: getData
-            })
+            const getDatas = await patientModel.findById({ _id: req.body.patientId })
+            res.send(getDatas)
         } catch (error) {
             console.log(error, "error");
         }
@@ -97,11 +99,10 @@ module.exports = {
             const data = await doctorModel.create({
                 name: req.body.name, age: req.body.age,
                 image: req.body.image, phone: req.body.phone, status: req.body.status, fees: req.body.fees,
-                doctorId: req.body.doctorId
+                doctorId: req.body.doctorId, role: req.body.role
             })
-            console.log(data, "====d==");
+            
             res.redirect("/booking")
-            console.log(data, "data");
 
         } catch (error) {
             console.log(error, "error");
@@ -110,7 +111,6 @@ module.exports = {
 
     getDoctor: async (req, res) => {
         try {
-            console.log(req.body, "========");
             const getData = await doctorModel.findById({ _id: req.body.doctorId })
             res.send(getData)
         } catch (error) {

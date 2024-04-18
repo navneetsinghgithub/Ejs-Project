@@ -2,6 +2,7 @@ const { tokenGenerate } = require("../jwt/jsonWebToken")
 const userModel = require("../model/userModel")
 const patientModel = require("../model/patientModel")
 const doctorModel = require("../model/doctorModel")
+const bokingModel = require("../model/bokingModel")
 const { imageupload, checkValidation } = require("../middleWare/helper")
 const bcrypt = require("bcrypt")
 const { Validator } = require("node-input-validator")
@@ -38,14 +39,14 @@ module.exports = {
             const contact = await userModel.findOne({
                 contact: req.body.contact
             })
-            if (contact) {
-                return res.json({
-                    success: false,
-                    status: 400,
-                    message: "contact number already exist",
-                    body: {}
-                })
-            }
+            // if (contact) {
+            //     return res.json({
+            //         success: false,
+            //         status: 400,
+            //         message: "contact number already exist",
+            //         body: {}
+            //     })
+            // }
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
@@ -79,7 +80,6 @@ module.exports = {
     },
 
     login: async (req, res) => {
-        0
         try {
             let login = await userModel.findOne({ email: req.body.email })
             if (!login) {
@@ -126,9 +126,9 @@ module.exports = {
 
     updateAdminProfile: async (req, res) => {
         try {
-            // if (!req.session.users || !req.session.users._id) {
-            //     return helper.failed(res, "User session not found or missing _id");
-            // }
+            if (!req.session.users || !req.session.users._id) {
+                return helper.failed(res, "User session not found or missing _id");
+            }
             if (req.files && req.files.image.name) {
                 const image = req.files.image;
                 if (image) req.body.image = imageupload(image, "userImage");
@@ -139,8 +139,7 @@ module.exports = {
             let login = await userModel.findOne({ _id: req.session.users._id })
             req.session.users = login
             res.redirect("/dashboard")
-            // res.flash("msg", "updated admin profile")
-            console.log("updated admin profile");
+            res.flash("msg", "updated admin profile")
         } catch (error) {
             console.log(error);
         }
@@ -210,7 +209,6 @@ module.exports = {
 
     deleteUser: async (req, res) => {
         try {
-
             const data = await userModel.findByIdAndDelete({ _id: req.body.id });
         } catch (error) {
             console.log('-', error)
@@ -245,10 +243,9 @@ module.exports = {
 
     status: async (req, res) => {
         try {
-            const data = await doctorModel.findByIdAndUpdate({
+            const data = await bokingModel.findByIdAndUpdate({
                 _id: req.params.id
             }, { status: req.body.status }, { new: true })
-            console.log("Status update successfully");
             return res.status(200).json({
                 code: 200,
                 msg: req.flash("msg", "Status update successfully"),

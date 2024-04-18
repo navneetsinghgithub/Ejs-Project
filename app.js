@@ -30,9 +30,7 @@ app.use(session({
   cookie: { secure: false }
 }))
 app.use(flash())
-
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 
 
