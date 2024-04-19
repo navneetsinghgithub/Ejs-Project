@@ -241,7 +241,7 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      const docData = await doctorModel.find()
+      const docData = await categoryModel.find()
       const patData = await patientModel.find()
       res.render("booking/addDoctor", { session: req.session.users, docData, patData })
     } catch (error) {

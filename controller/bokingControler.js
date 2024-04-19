@@ -99,22 +99,37 @@ module.exports = {
             const data = await doctorModel.create({
                 name: req.body.name, age: req.body.age,
                 image: req.body.image, phone: req.body.phone, status: req.body.status, fees: req.body.fees,
-                doctorId: req.body.doctorId, role: req.body.role
+                doctorId: req.body.doctorId,doctorCategory:req.body.doctorCategory
             })
-            
             res.redirect("/booking")
-
         } catch (error) {
             console.log(error, "error");
         }
     },
 
-    getDoctor: async (req, res) => {
-        try {
-            const getData = await doctorModel.findById({ _id: req.body.doctorId })
-            res.send(getData)
+    getdoctor_data: async (req, res) => {
+        try {      
+            const getData = await doctorModel.find({doctorCategory:req.body.category}); 
+            res.send(getData);
         } catch (error) {
             console.log(error, "error");
+
+        }
+    },
+
+    getDoctor: async (req, res) => {
+        try {
+            const { doctorId, doctorCategory } = req.body;
+            let query = { _id: doctorId };
+            if (doctorCategory) {
+                query = { ...query, doctorCategory };
+            }
+            const getData = await doctorModel.findOne(query);
+            console.log(getData,"-----t--");
+            res.send(getData);
+        } catch (error) {
+            console.log(error, "error");
+
         }
     }
 }

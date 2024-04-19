@@ -75,6 +75,7 @@ router.get("/bookingView/:id", adminController.bookingView)
 
 ////////////////////////////doctor///////////////////
 router.post("/addDoctor", bokingControler.addDoctor)
+router.post("/getdoctor_data",bokingControler.getdoctor_data);
 router.post("/getDoctor", bokingControler.getDoctor)
 router.post("/getPatient", bokingControler.getPatient)
 

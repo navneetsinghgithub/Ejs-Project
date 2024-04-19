@@ -38,33 +38,42 @@
                               <!-- <a href="#" class="me-25">
                           <img src="" id="account-upload-img" class="rounded me-50" alt=" image" height="80" width="80" />
                         </a> -->
-                        <div class="mt-75 ms-1"></div>
-                        <div class="col-12 col-sm-6">
-                        <div class="mb-1">
-                          <label class="form-label" for="phone">Patient Name</label>
-                          <select class="form-select" id="patientId" name="patientId">
-                            <option>select patient</option>
-                            <% patData.forEach((data, i)=> { %>
-                              <option id="id" value="<%= data._id %>">
-                                <%= data.name %>
-                              </option>
-                              <% }) %>
-                          </select>
-                        </div>
-                            
-                             
-                                <label class="form-label" for="account-username">Doctor Name</label>
-                                <select class="form-select" id="doctorId" name="doctorId" onchange="addDoctor()">
-                                  <option>select Doctor</option>
-                                  <% docData.forEach((data, i)=> { %>
-                                    <option id="id" value="<%= data._id %>">
-                                      <%= data.name %>
-                                    </option>
-                                    <% }) %>
-                                </select>
+                              <div class="mt-75 ms-1"></div>
+                              <div class="col-12 col-sm-6">
+                                <div class="mb-1">
+                                  <label class="form-label" for="phone">Patient Name</label>
+                                  <select class="form-select" id="patientId" name="patientId">
+                                    <option>select patient</option>
+                                    <% patData.forEach((data, i)=> { %>
+                                      <option id="id" value="<%= data._id %>">
+                                        <%= data.name %>
+                                      </option>
+                                      <% }) %>
+                                  </select>
+                                </div>
+
+                                <div class="mb-1">
+                                  <label class="form-label" for="doctorCategory">Doctor Category</label>
+                                  <select class="form-select" id="doctorCategory" name="doctorCategory"
+                                    onchange="getDoctorsByCategory()">
+                                    <option>Select Category</option>
+                                    <% docData.forEach((data, i)=> { %>
+                                      <option id="id" value="<%= data._id %>">
+                                        <%= data.name %>
+                                      </option>
+                                      <% }) %>
+
+                                  </select>
+                                </div>
+
+                                <div class="mb-1 doctor_data">
+                                 </div>
+
                                 <div class="mb-1 doctorFees">
                                 </div>
-                               
+
+
+
                                 <div class="mb-1">
                                   <label class="form-label" for="phone">Title</label>
                                   <input type="text" class="form-control" id="title" name="title" placeholder="title" />
@@ -99,6 +108,44 @@
 
         </html>
         <script>
+          function getDoctorsByCategory(id) {
+            var categoryId = document.getElementById("doctorCategory")
+            var selectedOption = categoryId.options[categoryId.selectedIndex];
+            var category = selectedOption.value;
+         
+            $.ajax({
+              url: '/getdoctor_data',
+              type: 'post',
+              data: { category: category },
+              success: function (response) {
+                // console.log(response, "responseresponse");
+
+                let html = "";
+                html += `
+                <label class="form-label" for="account-username">Doctor Name</label>
+                                <select class="form-select" id="doctorId" name="doctorId" onchange="addDoctor()">
+                                  <option>select Doctor</option>`
+                for (let i in response) {
+                  html += `
+                  <option id="id" value="${response[i]._id}">
+                                      ${response[i].name}
+                                    </option>
+                                    `
+                }
+                html += `                              
+                                </select>
+`
+                $(".doctor_data").html(html);
+              },
+              error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+              }
+            });
+
+          }
+
+
+          /*********************get doctor fees**********************/
           function addDoctor(id) {
             var selectElement = document.getElementById("doctorId");
             var selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -108,7 +155,6 @@
               type: 'post',
               data: { doctorId: doctorId },
               success: function (response) {
-                console.log(response.fees, "responseresponse");
                 let fee = response.fees
                 let html = "";
                 html += `
