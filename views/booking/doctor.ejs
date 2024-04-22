@@ -24,7 +24,7 @@
                                                     <th>Image</th>
                                                     <th>Age</th>                                        
                                                     <!-- <th>Appointment</th>                                     -->
-                                                    <!-- <th>Status</th> -->
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -53,7 +53,7 @@
                                                                 class="btn btn-sm btn-outline-danger">Book</button></a>
                                                         </td> -->
 
-                                                                <!-- <td>
+                                                                <td>
                                                                     <% if(data.status=="Active" ) { %>
                                                                         <button onclick="changeStatus(this)"
                                                                             id="id<%=data._id%>"
@@ -67,7 +67,7 @@
                                                                                 data-id="<%=data._id%>" value="Active"
                                                                                 style="display: flex;font-size: 9px;">Rejected</button>
                                                                             <% } %>
-                                                                </td> -->
+                                                                </td>
                                                                 <td>
                                                                     <a href="/doctorView/<%=data._id%>"
                                                                         class="btn btn-sm btn-outline-success"><i
@@ -157,7 +157,7 @@
                                                 var value = button.getAttribute('value');
                                                 $.ajax({
                                                     type: "post",
-                                                    url: "/status/" + _id,
+                                                    url: "/dStatus/" + _id,
                                                     data: {
                                                         status: value
                                                     },

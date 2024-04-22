@@ -24,8 +24,8 @@
                                                     <th>Image</th>
                                                     <th>Age</th>
                                                     <!-- <th>Appointment</th>                                     -->
-                                                    <!-- <th>Status</th> -->
-                                                    <!-- <th>Action</th> -->
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -48,29 +48,28 @@
                                                         <td>
                                                             <%=data.age%>
                                                         </td>
-                                                        <!-- <td>
-                                                                    <% if(data.status=="Active" ) { %>
-                                                                        <button onclick="changeStatus(this)"
-                                                                            id="id<%=data._id%>"
-                                                                            class="btn btn-success status btn-sm"
-                                                                            data-id="<%=data._id%>"
-                                                                            value="Inactive">Accept</button>
-                                                                        <% } else { %>
-                                                                            <button onclick="changeStatus(this)"
-                                                                                id="id<%=data._id%>"
-                                                                                class="btn btn-danger status btn-sm "
-                                                                                data-id="<%=data._id%>" value="Active"
-                                                                                style="display: flex;font-size: 9px;">Rejected</button>
-                                                                            <% } %>
-                                                                </td> -->
-                                                        <!-- <td>
-                                                                    <a href=""
-                                                                        class="btn btn-sm btn-outline-success"><i
-                                                                            data-feather='eye'></i></a> -->
-                                                        <!-- <button onclick="confirmDelete('<%=data._id%>')"
-                                                                        class="btn btn-sm btn-outline-danger""> <i
-                                                data-feather='trash'></i> </button> -->
-                                                        <!-- </td> -->
+                                                        <td>
+                                                            <% if(data.status=="Active" ) { %>
+                                                                <button onclick="changeStatus(this)"
+                                                                    id="id<%=data._id%>"
+                                                                    class="btn btn-success status btn-sm"
+                                                                    data-id="<%=data._id%>"
+                                                                    value="Inactive">Accept</button>
+                                                                <% } else { %>
+                                                                    <button onclick="changeStatus(this)"
+                                                                        id="id<%=data._id%>"
+                                                                        class="btn btn-danger status btn-sm "
+                                                                        data-id="<%=data._id%>" value="Active"
+                                                                        style="display: flex;font-size: 9px;">Rejected</button>
+                                                                    <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/patientView/<%=data._id%>" class="btn btn-sm btn-outline-success"><i
+                                                                    data-feather='eye'></i></a>
+                                                            <!-- <button onclick="confirmDelete('<%=data._id%>')"
+                                                                class="btn btn-sm btn-outline-danger""> <i
+                                                data-feather='trash'></i> </button>  -->
+                                                         </td>
                                                     </tr>
                                                     <% } )%>
                                             </tbody>
@@ -84,23 +83,23 @@
             </div>
 
             <div class=" sidenav-overlay">
-            </div>
-            <div class="drag-target"></div>
-            <%- include('../common/footer') %>
+                                    </div>
+                                    <div class="drag-target"></div>
+                                    <%- include('../common/footer') %>
 
-                <script>
-                    setTimeout(function () {
-                        $("div.msg").fadeOut();
-                    }, 2000);
-                </script>
+                                        <script>
+                                            setTimeout(function () {
+                                                $("div.msg").fadeOut();
+                                            }, 2000);
+                                        </script>
 
-                <script>
-                    $(document).ready(function () {
-                        $('#userTable').DataTable(); // Initialize DataTable for the user table
-                    });
-                </script>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('#userTable').DataTable(); // Initialize DataTable for the user table
+                                            });
+                                        </script>
 
-                <!-- <script>
+                                        <!-- <script>
                                             function confirmDelete(id) {
                                                 const swalWithBootstrapButtons = Swal.mixin({
                                                     customClass: {
@@ -146,14 +145,14 @@
                                             }
                                         </script> -->
 
-                <!-- <script>
+                                        <script>
                                             function changeStatus(button) {
                                                 var _id = button.getAttribute('data-id');
                                                 var value = button.getAttribute('value');
 
                                                 $.ajax({
                                                     type: "post",
-                                                    url: "/status/" + _id,
+                                                    url: "/pStatus/" + _id,
                                                     data: {
                                                         status: value
                                                     },
@@ -166,4 +165,4 @@
                                                     }
                                                 });
                                             }
-                                        </script>  -->
+                                        </script>

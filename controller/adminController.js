@@ -9,6 +9,8 @@ const doctorModel = require("../model/doctorModel")
 const session = require("express-session");
 const { addSubCategory } = require("./subCategoryController");
 const patient = require("../model/patientModel");
+const {validator, Validator} = require("node-input-validator")
+const {checkValidation} = require("../middleWare/helper")
 
 
 module.exports = {
@@ -217,7 +219,7 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
-      const Data = await bokingModel.findOne({ _id: req.params.id }).populate(['doctorId','patientId'])
+      const Data = await bokingModel.findOne({ _id: req.params.id }).populate(['doctorId', 'patientId'])
       res.render("booking/bookingView", { session: req.session.users, Data })
     } catch (error) {
       console.log(error, "error");
@@ -238,9 +240,24 @@ module.exports = {
 
   addDoctor: async (req, res) => {
     try {
+
+      const validator = new Validator(req.body, {
+        doctorCategory: "required",
+        title: "required",
+        date: "required",
+        name: "required",
+    });
+    const errorResponse = await checkValidation(validator);
+
+    if (errorResponse) {
+        console.log('Validation error:', errorResponse);
+      
+    }
+
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
+
       const docData = await categoryModel.find()
       const patData = await patientModel.find()
       res.render("booking/addDoctor", { session: req.session.users, docData, patData })
@@ -270,6 +287,17 @@ module.exports = {
       res.render("booking/patient", { session: req.session.users, getData })
     } catch (error) {
       console.log(error, "error");
+    }
+  },
+  patientView: async (req, res) => {
+    try {
+      if (!req.session.users) {
+        return res.redirect("/loginPage")
+      }
+      const Data = await patientModel.findOne({ _id: req.params.id })
+      res.render("booking/patientView", { session: req.session.users, Data })
+    } catch (error) {
+      console.log(error);
     }
   },
 

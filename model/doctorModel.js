@@ -14,6 +14,9 @@ const doctorSchema = new mongoose.Schema({
         { type: Number },
     doctorCategory:
         { type: String },
+    status:
+        { type: String }
+
 }, { timestamps: true })
 const doctor = mongoose.model("doctor", doctorSchema)
 module.exports = doctor

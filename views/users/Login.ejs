@@ -37,7 +37,81 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     <!-- END: Custom CSS-->
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
 
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="checkbox"]:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+    </style>
 </head>
 
 <body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static   menu-collapsed"
@@ -109,12 +183,12 @@
 
                                         <p class="card-text mb-2">Please sign-in to your account and start the adventure
                                         </p>
-                                        <form class="auth-login-form mt-2" action="/login" method="POST">
+                                        <form class="auth-login-form mt-2"   action="/login" method="POST" id="addForm" enctype="multipart/form-data">
                                             <div class="mb-1">
                                                 <label for="login-email" class="form-label">Email</label>
-                                                <input type="text" class="form-control" id="login-email" name="email"
+                                                <input type="text" class="form-control" id="email" name="email"
                                                     placeholder="john@example.com" aria-describedby="login-email"
-                                                    tabindex="1" autofocus required />
+                                                    tabindex="1" autofocus required  />
                                             </div>
                                             <div class="mb-1">
                                                 <div class="d-flex justify-content-between">
@@ -124,7 +198,7 @@
                                                     <input type="password" class="form-control form-control-merge"
                                                         id="password" name="password"
                                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="password" tabindex="1" autofocus required />
+                                                        aria-describedby="password" tabindex="1" maxlength="" autofocus required />
                                                     <span class="input-group-text cursor-pointer"
                                                         onclick="togglePasswordVisibility('password', 'password-eye')"><i
                                                             class="feather" id="password-eye"
@@ -140,3 +214,39 @@
             </div>
         </div>
     </div>
+
+
+
+   <script>
+   $(document).ready(function() {
+        jQuery.validator.addMethod("noSpace", function(value, element) {
+          return value == '' || value.trim().length != 0;
+        }, "No space please and don't leave it empty");
+      })
+
+        $("#addForm").validate({
+          ignore: [],
+          rules: {
+           
+            email: {
+              required: true,
+              minlength: 3,
+              noSpace: true
+            },
+            password: {
+              required: true,
+              minlength: 3,
+              noSpace: true
+            },
+          },
+          messages: {
+
+            email: {
+              required: "email is a required field!",
+              accept: "Please enter a vaild email "
+            },
+          },
+        })
+
+    
+    </script>

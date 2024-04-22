@@ -88,6 +88,19 @@ module.exports = {
             console.log(error, "error");
         }
     },
+    pStatus: async (req, res) => {
+        try {
+            const data = await patientModel.findByIdAndUpdate({
+                _id: req.params.id
+            }, { status: req.body.status }, { new: true })
+            return res.status(200).json({
+                code: 200,
+                msg: req.flash("msg", "Status update successfully"),
+            });
+        } catch (error) {
+            console.log(error, "error");
+        }
+    },
 
     ///////////////////////////////Doctor Controller/////////////////////
     addDoctor: async (req, res) => {
@@ -131,5 +144,18 @@ module.exports = {
             console.log(error, "error");
 
         }
-    }
+    },
+    dStatus: async (req, res) => {
+        try {
+            const data = await doctorModel.findByIdAndUpdate({
+                _id: req.params.id
+            }, { status: req.body.status }, { new: true })
+            return res.status(200).json({
+                code: 200,
+                msg: req.flash("msg", "Status update successfully"),
+            });
+        } catch (error) {
+            console.log(error, "error");
+        }
+    },
 }

@@ -42,7 +42,7 @@
                               <div class="col-12 col-sm-6">
                                 <div class="mb-1">
                                   <label class="form-label" for="phone">Patient Name</label>
-                                  <select class="form-select" id="patientId" name="patientId">
+                                  <select class="form-select" id="patientId" name="patientId"  required>
                                     <option>select patient</option>
                                     <% patData.forEach((data, i)=> { %>
                                       <option id="id" value="<%= data._id %>">
@@ -62,25 +62,21 @@
                                         <%= data.name %>
                                       </option>
                                       <% }) %>
-
                                   </select>
                                 </div>
 
                                 <div class="mb-1 doctor_data">
                                  </div>
-
                                 <div class="mb-1 doctorFees">
                                 </div>
 
-
-
                                 <div class="mb-1">
                                   <label class="form-label" for="phone">Title</label>
-                                  <input type="text" class="form-control" id="title" name="title" placeholder="title" />
+                                  <input type="text" class="form-control" id="title" name="title" placeholder="title" required="required"  />
                                 </div>
                                 <div class="mb-1">
                                   <label class="form-label" for="phone">Date</label>
-                                  <input type="text" class="form-control" id="date" name="date" placeholder="date" />
+                                  <input type="text" class="form-control" id="date" name="date" placeholder="date" required="required" />
                                 </div>
                               </div>
                               <div class="col-12">
