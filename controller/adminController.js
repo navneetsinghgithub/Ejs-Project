@@ -19,8 +19,17 @@ module.exports = {
       if (!req.session.users) {
         return res.redirect("/loginPage")
       }
+const doctor = await doctorModel.find().count()
+const patient = await patientModel.find().count()
+
+
       const msg = req.flash("msg");
-      res.render("common/dashboard", { session: req.session.users, msg });
+     return res.render("common/dashboard", { 
+        session: req.session.users,
+         msg ,
+         doctor:doctor,
+         patient:patient
+      });
     } catch (error) {
       console.log(error);
     }

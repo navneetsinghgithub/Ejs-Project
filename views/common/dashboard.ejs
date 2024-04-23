@@ -100,13 +100,96 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div style="width: 500px;">
+                                            <div id="pieChart" style="width: 100%; max-width: 500px; height: 350px;">
+                                            </div>
+
+                                        </div>
+                                        <div id="barChart" style="width: 100%; max-width: 500px; height: 350px;"></div>
+
                                     </div>
+
                                 </section>
                             </div>
                         </div>
                     </div>
-
                     <%-include("../common/Footer.ejs")%>
+
+                        <script>
+                            var dataSeries = [{
+                                data: ['<%= doctor %>', '<%= patient %>']
+                            }];
+                            var options = {
+                                series: dataSeries,
+                                chart: {
+                                    height: 300,
+                                    type: 'bar'
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        columnWidth: '30%',
+                                        distributed: true
+                                    }
+                                },
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                legend: {
+                                    show: true
+                                },
+                                xaxis: {
+                                    categories: [
+                                        ['Doctor'],
+                                        ['Patients'],
+                                    ],
+                                    labels: {
+                                        style: {
+                                            fontSize: '12px'
+                                        }
+                                    }
+                                },
+                                colors: ['#1E90FF', '#FF6347', '#FF6347', '#FFBF00', '#00BFFF', '#FF4500', '#ADFF2F', '#FFA500']
+                            };
+                            var chart = new ApexCharts(document.querySelector("#pieChart"), options);
+                            chart.render();
+                        </script>
+
+                        <script>
+                            let doctor = "<%-doctor%>";
+                            let patient = "<%-patient%>";
+                            var options = {
+                                series: [parseInt(doctor), parseInt(patient)],
+                                chart: {
+                                    width: '100%',
+                                    type: 'pie',
+                                },
+                                labels: ["doctor", "patient"],
+                                theme: {
+                                    monochrome: {
+                                        enabled: false
+                                    }
+                                },
+                                plotOptions: {
+                                    pie: {
+                                        dataLabels: {
+                                            offset: 5
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    show: true,
+                                    position: 'right',
+                                    offsetY: 50
+                                }
+                            };
+                            var chart = new ApexCharts(document.querySelector("#barChart"), options);
+                            chart.render();
+                        </script>
+
+
+                        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
