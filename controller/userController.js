@@ -1,3 +1,4 @@
+
 const { tokenGenerate } = require("../jwt/jsonWebToken")
 const userModel = require("../model/userModel")
 const patientModel = require("../model/patientModel")

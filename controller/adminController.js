@@ -38,7 +38,7 @@ const patient = await patientModel.find().count()
   loginPage: async (req, res) => {
     try {
       const msg = req.flash("msg");
-      res.render("users/Login", { msg })
+      res.render("common/Login", { msg })
     } catch (error) {
       console.log(error);
     }
