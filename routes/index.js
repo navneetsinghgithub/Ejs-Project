@@ -33,22 +33,14 @@ router.get("/addDoctor", adminController.addDoctor)
 
 ////////////////user//////////////////
 router.post("/signup", userController.signup)
-// router.get("/getUser",  userController.getUser)
-router.get("/getSingleUser/:id", userController.getSingleUser)
-router.put("/updateUser/:id", userController.updateUser)
-router.post("/deleteUser", userController.deleteUser)
+// router.get("/getUser",  adminController.getUser)
 router.post("/login", userController.login)
-router.post("/changePassword", userController.changePassword)
-router.get("/logout", userController.logout)
-router.get("/getAdminProfile/:id", userController.getAdminProfile)
-router.post("/updateAdminProfile", userController.updateAdminProfile)
-router.post("/status/:id", userController.status)
+router.post("/changePassword", adminController.changePassword)
+router.get("/getAdminProfile/:id", adminController.getAdminProfile)
+router.post("/updateAdminProfile", adminController.updateAdminProfile)
 
 ///////////////CMS///////////////////
 router.post("/createCms", cmsController.createCms)
-// router.get("/TermC", cmsController.TermC)
-// router.get("/privacyP", cmsController.privacyP)
-// router.get("/aboutUs", cmsController.aboutUs)
 router.post("/updateTermCms", cmsController.updateTermCms)
 router.post("/updatePrivacyCms", cmsController.updatePrivacyCms)
 router.post("/updateAboutCms", cmsController.updateAboutCms)
@@ -72,6 +64,8 @@ router.post("/createBoking", bokingControler.createBoking)
 router.get("/getBoking", bokingControler.getBoking)
 router.get("/getSingleBoking/:id", bokingControler.getSingleBoking)
 router.get("/bookingView/:id", adminController.bookingView)
+router.post("/bookingStatus/:id", adminController.bookingStatus)
+
 
 ////////////////////////////doctor///////////////////
 router.post("/addDoctor", bokingControler.addDoctor)
@@ -85,6 +79,7 @@ router.post("/addPatient", bokingControler.addPatient)
 router.post("/getPatient", bokingControler.getPatient)
 router.post("/pStatus/:id", bokingControler.pStatus)
 router.get("/patientView/:id", adminController.patientView)
+router.get("/logout", adminController.logout)
 
 
 

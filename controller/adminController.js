@@ -54,7 +54,25 @@ const patient = await patientModel.find().count()
       console.log(error);
     }
   },
-
+  getAdminProfile: async (req, res) => {
+    try {
+        const getProfile = await userModel.findById({
+            _id: req.params.id
+        })
+        return res.json({
+            success: true,
+            status: 200,
+            message: " get profile successful",
+            body: getProfile
+        })
+    } catch (error) {
+        return res.json({
+            success: false,
+            status: 400,
+            message: "error",
+        })
+    }
+},
   editProfile: async (req, res) => {
     try {
       if (!req.session.users) {
@@ -66,6 +84,27 @@ const patient = await patientModel.find().count()
       console.log(error);
     }
   },
+  
+  updateAdminProfile: async (req, res) => {
+    try {
+        if (!req.session.users || !req.session.users._id) {
+            return helper.failed(res, "User session not found or missing _id");
+        }
+        if (req.files && req.files.image.name) {
+            const image = req.files.image;
+            if (image) req.body.image = imageupload(image, "userImage");
+        }
+        const updateAdminProfile = await userModel.findByIdAndUpdate({
+            _id: req.session.users._id
+        }, { name: req.body.name, image: req.body.image, contact: req.body.contact }, { new: true })
+        let login = await userModel.findOne({ _id: req.session.users._id })
+        req.session.users = login
+        res.redirect("/dashboard")
+        res.flash("msg", "updated admin profile")
+    } catch (error) {
+        console.log(error);
+    }
+},
 
   changePasswordPage: async (req, res) => {
     try {
@@ -73,11 +112,27 @@ const patient = await patientModel.find().count()
         return res.redirect("/loginPage")
       }
       const msg = req.flash("msg");
-      res.render("users/ChangePassword.ejs", { session: req.session.users, msg })
+      res.render("common/ChangePassword.ejs", { session: req.session.users, msg })
     } catch (error) {
       console.log(error);
     }
   },
+  changePassword: async (req, res) => {
+    try {
+        const data = await userModel.findOne({ _id: req.session.users._id })
+        const decryptPassword = await bcrypt.compare(req.body.oldPassword, data.password)
+        if (decryptPassword == false) {
+            req.flash('error', 'Old pass does not match')
+        }
+        const encryptPassword = await bcrypt.hash(req.body.newPassword, saltRound)
+        data.password = encryptPassword
+        data.save()
+        req.flash("success", "password updated successfully")
+        return res.redirect('/changePasswordPage')
+    } catch (error) {
+        console.log(error, "error");
+    }
+},
 
 
   userView: async (req, res) => {
@@ -223,6 +278,20 @@ const patient = await patientModel.find().count()
     }
   },
 
+  bookingStatus: async (req, res) => {
+    try {
+        const data = await bokingModel.findByIdAndUpdate({
+            _id: req.params.id
+        }, { status: req.body.status }, { new: true })
+        return res.status(200).json({
+            code: 200,
+            msg: req.flash("msg", "Status update successfully"),
+        });
+    } catch (error) {
+        console.log(error, "error");
+    }
+},
+
   bookingView: async (req, res) => {
     try {
       if (!req.session.users) {
@@ -310,16 +379,28 @@ const patient = await patientModel.find().count()
     }
   },
 
+  logout: async (req, res) => {
+    try {
+        delete req.session.users
+        res.redirect('/loginPage')
+    } catch (error) {
+        console.log(error, "error");
+    }
+},
+ 
 
-  // getUser : async (req,res)=>{
-  //   try {
-  //     if (!req.session.users) {
-  //       return res.redirect("/loginPage")
-  //     }
-  //     res.render("common/user",{ session: req.session.users })
-  //   } catch (error) {
-  //     console.log(error,"error");
-  //   }
-  // }
+// getUser: async (req, res) => {
+//   try {
+//       if (!req.session.users) {
+//           res.redirect("/loginPage")
+//       }
+//       let Data = await userModel.find({ role: 1 })
+//       res.render("common/user", { Data, session: req.session.users })
+//   } catch (error) {
+//       console.log(error)
+
+//   }
+// },
+  
 
 }

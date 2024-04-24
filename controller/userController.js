@@ -159,79 +159,8 @@ module.exports = {
         }
     },
 
-    getSingleUser: async (req, res) => {
-        try {
-            const data = await userModel.findById({
-                _id: req.params.id
-            })
-            return res.json({
-                success: true,
-                status: 200,
-                message: "get single users success",
-                body: data
-            })
-        } catch (error) {
-            console.log(error)
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error not get users"
-            })
-        }
-    },
+    
 
-    updateUser: async (req, res) => {
-        try {
-            if (req.files && req.files.image.name) {
-                const image = req.files.image;
-                if (image) req.body.image = imageupload(image, "userImage");
-            }
-            const data = await userModel.findByIdAndUpdate({
-                _id: req.params.id
-            }, {
-                name: req.body.name, lastname: req.body.lastname,
-                email: req.body.email, password: req.body.password, image: req.body.image, contact: req.body.contact
-            }, { new: true })
-            return res.json({
-                success: true,
-                status: 200,
-                message: "update users success",
-                body: data
-            })
-        } catch (error) {
-            console.log(error)
-            return res.json({
-                success: false,
-                status: 400,
-                message: "error not update users"
-            })
-        }
-    },
-
-    deleteUser: async (req, res) => {
-        try {
-            const data = await userModel.findByIdAndDelete({ _id: req.body.id });
-        } catch (error) {
-            console.log('-', error)
-        }
-    },
-
-    changePassword: async (req, res) => {
-        try {
-            const data = await userModel.findOne({ _id: req.session.users._id })
-            const decryptPassword = await bcrypt.compare(req.body.oldPassword, data.password)
-            if (decryptPassword == false) {
-                req.flash('error', 'Old pass does not match')
-            }
-            const encryptPassword = await bcrypt.hash(req.body.newPassword, saltRound)
-            data.password = encryptPassword
-            data.save()
-            req.flash("success", "password updated successfully")
-            return res.redirect('/changePasswordPage')
-        } catch (error) {
-            console.log(error, "error");
-        }
-    },
 
     logout: async (req, res) => {
         try {
@@ -242,17 +171,5 @@ module.exports = {
         }
     },
 
-    status: async (req, res) => {
-        try {
-            const data = await bokingModel.findByIdAndUpdate({
-                _id: req.params.id
-            }, { status: req.body.status }, { new: true })
-            return res.status(200).json({
-                code: 200,
-                msg: req.flash("msg", "Status update successfully"),
-            });
-        } catch (error) {
-            console.log(error, "error");
-        }
-    }
+    
 }
