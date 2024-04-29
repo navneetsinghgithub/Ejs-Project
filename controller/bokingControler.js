@@ -56,6 +56,21 @@ module.exports = {
             console.log(error, "error");
         }
     },
+    bookingStatus: async (req, res) => {
+        try {
+            console.log(req.params,"-----params----");
+          const data = await bokingModel.findByIdAndUpdate({
+            _id: req.params.id
+          }, { status: req.body.status }, { new: true })
+         
+          return res.status(200).json({
+            code: 200,
+            msg: req.flash("msg", "Status update successfully"),
+          });
+        } catch (error) {
+          console.log(error, "error");
+        }
+      },
 
     //////////////////////////////////patient controller//////////////////////////
     addPatient: async (req, res) => {
@@ -138,7 +153,7 @@ module.exports = {
                 query = { ...query, doctorCategory };
             }
             const getData = await doctorModel.findOne(query);
-            console.log(getData,"-----t--");
+            // console.log(getData,"-----t--");
             res.send(getData);
         } catch (error) {
             console.log(error, "error");

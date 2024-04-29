@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const adminController = require("../controller/adminController");
-const userController = require("../controller/userController");
 const cmsController = require("../controller/cmsController")
 const controllers = require("../controller/categoryController")
 const controllerss = require("../controller/subCategoryController")
@@ -32,9 +31,9 @@ router.get("/addDoctor", adminController.addDoctor)
 
 
 ////////////////user//////////////////
-router.post("/signup", userController.signup)
+router.post("/signup", adminController.signup)
 // router.get("/getUser",  adminController.getUser)
-router.post("/login", userController.login)
+router.post("/login", adminController.login)
 router.post("/changePassword", adminController.changePassword)
 router.get("/getAdminProfile/:id", adminController.getAdminProfile)
 router.post("/updateAdminProfile", adminController.updateAdminProfile)
@@ -64,7 +63,7 @@ router.post("/createBoking", bokingControler.createBoking)
 router.get("/getBoking", bokingControler.getBoking)
 router.get("/getSingleBoking/:id", bokingControler.getSingleBoking)
 router.get("/bookingView/:id", adminController.bookingView)
-router.post("/bookingStatus/:id", adminController.bookingStatus)
+router.post("/bookingStatus/:id", bokingControler.bookingStatus)
 
 
 ////////////////////////////doctor///////////////////

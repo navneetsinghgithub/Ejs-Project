@@ -109,157 +109,135 @@
                                             <div id="pieChart" style="width: 100%; max-width: 500px; height: 350px;">
                                             </div>
                                         </div>
-                                        <div id="barChart" style="width: 100%; max-width: 500px; height: 350px;">
+                                        <div style="width: 500px;">
+                                            <div id="barChart" style="width: 100%; max-width: 500px; height: 350px;">
+                                            </div>
                                         </div>
+                                        
 
                                     </div>
                                 </section>
                             </div>
                         </div>
                     </div>
-                    <%-include("../common/Footer.ejs")%>
+        <%-include("../common/Footer.ejs")%>
+                   
 
 
-                        <!-- <script>
-                        var options = {
-                          series: [{
-                            name: 'Inflation',
-                            data: ['<%= doctor %>', '<%= patient %>'] // Sample data, replace with your actual data
-                          }],
-                          chart: {
-                            height: 350,
-                            type: 'bar',
-                          },
-                          plotOptions: {
-                            bar: {
-                              borderRadius: 10,
-                              dataLabels: {
-                                position: 'top', // top, center, bottom
-                              },
-                            }
-                          },
-                          dataLabels: {
-                            enabled: true,
-                            formatter: function (val) {
-                              return val + "%";
-                            },
-                            offsetY: -20,
-                            style: {
-                              fontSize: '12px',
-                              colors: ["#304758"]
-                            }
-                          },
-                          xaxis: {
-                            categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                            position: 'bottom',
-                            axisBorder: {
-                              show: false
-                            },
-                            axisTicks: {
-                              show: false
-                            },
-                            crosshairs: {
-                              fill: {
-                                type: 'gradient',
-                                gradient: {
-                                  colorFrom: '#D8E3F0',
-                                  colorTo: '#BED1E6',
-                                  stops: [0, 100],
-                                  opacityFrom: 0.4,
-                                  opacityTo: 0.5,
-                                }
-                              }
-                            }
-                          },
-                          yaxis: {
-                            axisBorder: {
-                              show: false
-                            },
-                            axisTicks: {
-                              show: false,
-                            },
-                            labels: {
-                              show: false,
-                              formatter: function (val) {
-                                return val + "%";
-                              }
-                            }
-                          },
-                          tooltip: {
-                            enabled: true,
-                          }
-                        };
-                      
-                        var chart = new ApexCharts(document.querySelector("#barChart"), options);
-                        chart.render();
-                      </script> -->
+
+                        <!-- //////////////////////////ApexChart//////////////////////// -->
 
 
-                        <script>
-                            var dataSeries = [{
-                                data: ['<%= doctor %>', '<%= patient %>']
-                            }];
-                            var options = {
-                                series: dataSeries,
-                                chart: {
-                                    height: 300,
-                                    type: 'bar'
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        columnWidth: '30%',
-                                        distributed: true
-                                    }
-                                },
-                                dataLabels: {
-                                    enabled: true
-                                },
-                                legend: {
-                                    show: true
-                                },
-                                xaxis: {
-                                    categories: [
-                                        ['Doctor'],
-                                        ['Patients'],
-                                    ],
-                                    labels: {
-                                        style: {
-                                            fontSize: '12px'
+
+                        <link rel="stylesheet"
+                            href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.2/apexcharts.min.css"
+                            integrity="sha512-qc0GepkUB5ugt8LevOF/K2h2lLGIloDBcWX8yawu/5V8FXSxZLn3NVMZskeEyOhlc6RxKiEj6QpSrlAoL1D3TA=="
+                            crossorigin="anonymous" referrerpolicy="no-referrer" />
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.2/apexcharts.min.js"
+                            integrity="sha512-0C7wVtM3EhVJMUXV6o50mKRgLwKZf+aRws1BhqmNabPNIkGEvyPncYBmXhpl4A3+TdpkY2HFiI3Eyv32uVGo4g=="
+                            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+                            <script>
+                                const bookCountArr = JSON.parse('<%= JSON.stringify(countBook) %>');
+                                const bookmonthArr = JSON.parse('<%= JSON.stringify(monthBook) %>');
+                                var options = {
+                                    series: [{
+                                        name: 'Boking',
+                                        data: bookCountArr,
+                                        // data: [44, 55, 41,23]
+                                    }],
+                                    chart: {
+                                        height: 350,
+                                        type: 'bar',
+                                    },
+                                    plotOptions: {
+                                        bar: {
+                                            borderRadius: 5,
+                                            columnWidth: '50%',
                                         }
-                                    }
-                                },
-                                colors: ['#1E90FF', '#FF6347', '#FF6347', '#FFBF00', '#00BFFF', '#FF4500', '#ADFF2F', '#FFA500']
-                            };
-                            var chart = new ApexCharts(document.querySelector("#pieChart"), options);
-                            chart.render();
-                        </script>
-
-                        <script>
-                            let doctor = "<%-doctor%>";
-                            let patient = "<%-patient%>";
-                            var options = {
-                                series: [parseInt(doctor), parseInt(patient)],
-                                chart: {
-                                    width: '100%',
-                                    type: 'pie',
-                                },
-                                labels: ["doctor", "patient"],
-                                plotOptions: {
-                                    pie: {
-                                        dataLabels: {
-                                            offset: 5
+                                    },
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    stroke: {
+                                        width: 3,
+                                        colors: ['var(--bgtheme)']
+                                    },
+                                    grid: {
+                                        row: {
+                                            colors: ['#fff', '#f2f2f2']
                                         }
+                                    },
+                                    xaxis: {
+                                        title: {
+                                            text: 'Months',
+                                        },
+                                        labels: {
+                                            rotate: -45
+                                        },
+                                        // categories: monthArr,
+                                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+                                        tickPlacement: 'on'
+                                    },
+                                    yaxis: {
+                                        title: {
+                                            text: 'Boking',
+                                        },
+                                    },
+                                    fill: {
+                                        type: 'gradient',
+                                        toolbar: {
+                                            show: false,
+                                        },
+                                        gradient: {
+                                            shade: 'light',
+                                            type: "horizontal",
+                                            shadeIntensity: 0.25,
+                                            // gradientToColors: undefined,
+                                            gradientToColors: ['var(--bgtheme)'],
+                                            inverseColors: true,
+                                            opacityFrom: 0.85,
+                                            opacityTo: 0.85,
+                                            // stops: [50, 0, 100]
+                                            stops: [100]
+                                        },
                                     }
-                                },
-                                legend: {
-                                    show: true,
-                                    position: 'right',
-                                    offsetY: 50
-                                }
-                            };
-                            var chart = new ApexCharts(document.querySelector("#barChart"), options);
-                            chart.render();
-                        </script>
+                                };
+                                var book = new ApexCharts(document.querySelector("#barChart"), options);
+                                book.render();                  
+                            </script>
 
 
+                            <script>
+                                let doctor = "<%-doctor%>";
+                                let patient = "<%-patient%>";
+                                let boking = "<%-boking%>"
+    
+                                var options = {
+                                    series: [parseInt(doctor), parseInt(patient), parseInt(boking)],
+                                    chart: {
+                                        width: '100%',
+                                        type: 'pie',
+                                    },
+                                    labels: ["doctor", "patient", "boking"],
+                                    plotOptions: {
+                                        pie: {
+                                            dataLabels: {
+                                                offset: 5
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        show: true,
+                                        position: 'right',
+                                        offsetY: 50
+                                    }
+                                };
+                                var chart = new ApexCharts(document.querySelector("#pieChart"), options);
+                                chart.render();
+                            </script>
+              
                         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+                       
